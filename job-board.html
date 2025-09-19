@@ -1,6 +1,123 @@
-<div class="job-card">
-  <img src="${job.logo}" alt="${job.company} logo" />
-  <p class="sector">${job.sector.join(", ")}</p>
-  <h3>${job.title} — ${job.company}</h3>
-  <a href="detail.html?slug=${job.slug}">Read More</a>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Internship Job Board</title>
+  <style>
+    /* built-in styling so you don’t touch separate CSS files */
+    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg:#f3f4f6; }
+    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    h1 { font-size: 28px; margin: 0 0 16px; }
+    .controls { display:flex; gap:8px; flex-wrap: wrap; margin-bottom:16px; }
+    .controls input, .controls select { padding:10px 12px; border:1px solid #d1d5db; border-radius:8px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+    .card { background:var(--card); border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.04); }
+    .img { height:220px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .img img { width:100%; height:100%; object-fit:cover; }
+    .pad { padding:14px; }
+    .kicker { text-transform: lowercase; letter-spacing: .06em; color: var(--muted); font-size:12px; margin-bottom:6px; }
+    .title { font-size:20px; font-weight:700; line-height:1.2; margin: 4px 0 8px; }
+    .meta { color:var(--muted); font-size:14px; margin-bottom:8px; }
+    .link { display:inline-block; font-weight:700; color:var(--brand); text-decoration:none; }
+    .empty { color:var(--muted); margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Internships in Bermuda</h1>
+
+    <div class="controls">
+      <input id="search" placeholder="Search title or company" />
+      <select id="sector"><option value="">All sectors</option></select>
+      <select id="location">
+        <option value="">All locations</option>
+        <option>Remote</option>
+        <option>Hybrid</option>
+        <option>In-Person</option>
+      </select>
+      <select id="sort">
+        <option value="newest">Newest</option>
+        <option value="deadline">Deadline soonest</option>
+      </select>
+    </div>
+
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" style="display:none;">No internships match your filters.</div>
+  </div>
+
+  <script>
+    // 1) Where to load the list from (this is YOUR repo path)
+    const FETCH_URL = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/jobs.json";
+
+    function render(list) {
+      const g = document.getElementById('grid');
+      const empty = document.getElementById('empty');
+      g.innerHTML = "";
+      if (!list.length) { empty.style.display = "block"; return; }
+      empty.style.display = "none";
+
+      list.forEach(job => {
+        const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+        const sector = (job.sector && job.sector[0]) ? job.sector[0] : "opportunity";
+        g.insertAdjacentHTML("beforeend", `
+          <article class="card">
+            <div class="img"><img src="${img}" alt="${job.company} logo" /></div>
+            <div class="pad">
+              <div class="kicker">${sector}</div>
+              <div class="title">${job.title} — ${job.company}</div>
+              <div class="meta">${job.location}${job.applyBy ? " • apply by " + job.applyBy : ""}</div>
+              <a class="link" href="detail.html?slug=${job.slug}">Read More</a>
+            </div>
+          </article>
+        `);
+      });
+    }
+
+    fetch(FETCH_URL).then(r => r.json()).then(jobs => {
+      // Hide expired (applyBy in the past)
+      const today = new Date();
+      jobs = jobs.filter(j => !j.applyBy || new Date(j.applyBy) >= today);
+
+      // Fill sector dropdown
+      const sectorSet = new Set();
+      jobs.forEach(j => (j.sector||[]).forEach(s => sectorSet.add(s)));
+      const sectorSelect = document.getElementById('sector');
+      [...sectorSet].sort().forEach(s => sectorSelect.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+
+      function applyFilters() {
+        const term = document.getElementById('search').value.toLowerCase();
+        const sector = document.getElementById('sector').value;
+        const loc = document.getElementById('location').value;
+        const sort = document.getElementById('sort').value;
+
+        let filtered = jobs.slice();
+
+        if (term) {
+          filtered = filtered.filter(j =>
+            j.title.toLowerCase().includes(term) ||
+            j.company.toLowerCase().includes(term)
+          );
+        }
+        if (sector) filtered = filtered.filter(j => (j.sector||[]).includes(sector));
+        if (loc) filtered = filtered.filter(j => j.location === loc);
+
+        if (sort === "newest") filtered.sort((a,b) => new Date(b.createdDate) - new Date(a.createdDate));
+        if (sort === "deadline") filtered.sort((a,b) => new Date(a.applyBy||"9999-12-31") - new Date(b.applyBy||"9999-12-31"));
+
+        render(filtered);
+      }
+
+      document.querySelectorAll('#search,#sector,#location,#sort').forEach(el => {
+        el.addEventListener('input', applyFilters);
+        el.addEventListener('change', applyFilters);
+      });
+
+      applyFilters(); // first paint
+    }).catch(() => {
+      document.getElementById('grid').innerHTML = "<p class='empty'>Couldn’t load jobs. Double-check the FETCH_URL.</p>";
+    });
+  </script>
+</body>
+</html>
