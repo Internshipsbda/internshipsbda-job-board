@@ -1,0 +1,27 @@
+:root {
+  --brand-orange: #ff914d;
+  --brand-dark: #222;
+  --brand-light: #f9f9f9;
+}
+
+.job-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: white;
+}
+
+.job-card h3 {
+  margin: 0;
+  color: var(--brand-dark);
+}
+
+.apply-btn {
+  background: var(--brand-orange);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
