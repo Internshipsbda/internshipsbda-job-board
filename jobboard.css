@@ -1,3 +1,9 @@
+<div class="job-card">
+  <img src="${job.logo}" alt="${job.company} logo" />
+  <p class="sector">${job.sector.join(", ")}</p>
+  <h3>${job.title} — ${job.company}</h3>
+  <a href="detail.html?slug=${job.slug}">Read More</a>
+</div>
 :root {
   --brand-orange: #ff914d;
   --brand-dark: #222;
@@ -5,16 +11,25 @@
 }
 
 .job-card {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
   background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
 }
-
+.job-card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
 .job-card h3 {
-  margin: 0;
-  color: var(--brand-dark);
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+.job-card a {
+  color: var(--brand-orange);
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .apply-btn {
