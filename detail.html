@@ -1,21 +1,60 @@
-.job-card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 1rem;
-  margin: 1rem;
-  text-align: center;
-}
-.job-card img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-.job-card h3 {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-}
-.job-card a {
-  color: var(--brand-orange);
-  text-decoration: none;
-  font-weight: bold;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Internship</title>
+  <style>
+    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg:#f9fafb; }
+    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+    .wrap { max-width: 800px; margin: 24px auto; padding: 0 16px; }
+    a { color: var(--brand); text-decoration: none; }
+    .hero { display:flex; gap:16px; align-items:center; margin-bottom:16px; }
+    .hero img { width:96px; height:96px; object-fit:cover; border-radius:12px; border:1px solid #e5e7eb; background:#fff; }
+    .kicker { color:var(--muted); font-size:12px; text-transform: lowercase; }
+    h1 { margin:4px 0 6px; font-size:28px; }
+    .meta { color:var(--muted); margin-bottom:12px; }
+    .cta { display:inline-block; background:var(--brand); color:#fff; padding:12px 16px; border-radius:10px; font-weight:700; }
+    .back { display:inline-block; margin-bottom:8px; }
+    .notfound { margin-top:48px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="root">
+    <a class="back" href="job-board.html">← Back to all internships</a>
+    <div id="content"></div>
+  </div>
+
+  <script>
+    const slug = new URLSearchParams(location.search).get("slug");
+    const BASE = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/";
+
+    function notFound() {
+      document.title = "Job not found";
+      document.getElementById('content').innerHTML = '<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>';
+    }
+
+    if (!slug) { notFound(); }
+    else {
+      fetch(`${BASE}${slug}.json`).then(r => r.ok ? r.json() : Promise.reject())
+      .then(job => {
+        document.title = `${job.title} at ${job.company} | Internships`;
+        const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+        document.getElementById('content').innerHTML = `
+          <div class="hero">
+            <img src="${img}" alt="${job.company} logo">
+            <div>
+              <div class="kicker">${(job.sector||[]).join(", ") || "opportunity"}</div>
+              <h1>${job.title}</h1>
+              <div class="meta">${job.company} • ${job.location}</div>
+            </div>
+          </div>
+          <div class="meta">Start: ${job.startDate || "TBD"} • End: ${job.endDate || "TBD"} • Apply by: ${job.applyBy || "TBD"}</div>
+          <div>${job.descriptionHtml || "<p>No description provided.</p>"}</div>
+          <p><a class="cta" href="${job.applyLink}" target="_blank" rel="noopener">Apply Now</a></p>
+        `;
+      }).catch(notFound);
+    }
+  </script>
+</body>
+</html>
