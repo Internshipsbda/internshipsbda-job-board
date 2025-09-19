@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "marketing-intern-skillcraft",
+    "title": "Marketing Intern",
+    "company": "SkillCraft",
+    "companySlug": "skillcraft",
+    "sector": ["Marketing"],
+    "location": "Hybrid",
+    "startDate": "2025-10-01",
+    "endDate": "2026-03-01",
+    "applyBy": "2025-12-31",
+    "createdDate": "2025-09-18T12:00:00Z",
+    "applyLink": "https://example.com/apply",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg"
+  }
+]
