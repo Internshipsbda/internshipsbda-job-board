@@ -2,7 +2,7 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened, labeled]   # run when created OR when labels are added
 
 permissions:
   contents: write
@@ -10,49 +10,73 @@ permissions:
 
 jobs:
   convert:
-    if: contains(toJson(github.event.issue.labels), 'job')
+    # Only proceed if the issue currently has a label literally named "job"
+    if: contains(join(fromJson(toJson(github.event.issue.labels)).*.name, ','), 'job')
     runs-on: ubuntu-latest
-    steps:
-      # (leave the rest exactly as you have it)
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Debug labels and body (for troubleshooting)
+        run: |
+          echo "LABELS: ${{ toJson(github.event.issue.labels) }}"
+          echo "BODY RAW:"
+          echo '${{ github.event.issue.body }}'
+
       - name: Skip if already published
         id: skipcheck
         shell: bash
         run: |
           BODY='${{ github.event.issue.body }}'
+          # Validate JSON; if invalid, fail here (you'll see it in logs)
           echo "$BODY" | jq . > /dev/null
           SLUG=$(echo "$BODY" | jq -r '.slug')
+          if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
+            echo "❌ Missing 'slug' in JSON body"; exit 1
+          fi
           if [ -f "jobs/${SLUG}.json" ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Validate that the issue body is JSON
-        run: |
-          echo '${{ github.event.issue.body }}' | jq . > /dev/null
-
-           - name: Parse body and save jobs/{slug}.json
+      - name: Parse body and save jobs/{slug}.json
         if: steps.skipcheck.outputs.exists == 'false'
+        shell: bash
         run: |
-          # same content…
+          set -e
+          mkdir -p jobs
+          BODY='${{ github.event.issue.body }}'
+          echo "$BODY" | jq . > jobs/_incoming.json
+          SLUG=$(jq -r '.slug' jobs/_incoming.json)
+          cp jobs/_incoming.json "jobs/${SLUG}.json"
+          rm jobs/_incoming.json
 
       - name: Rebuild jobs index (jobs/jobs.json)
         if: steps.skipcheck.outputs.exists == 'false'
+        shell: bash
         run: |
-          # same content…
+          set -e
+          shopt -s nullglob
+          FILES=(jobs/*.json)
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "[]" > jobs/jobs.json
+          else
+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
+          fi
 
       - name: Commit JSON + index
         if: steps.skipcheck.outputs.exists == 'false'
         run: |
-          # same content…
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs/*.json
+          git commit -m "Publish job from Issue #${{ github.event.issue.number }}" || echo "No changes"
+          git push
 
       - name: Comment and close Issue
         if: steps.skipcheck.outputs.exists == 'false'
@@ -60,4 +84,6 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           comment: |
-            ✅ Thanks! This internship has been published…
+            ✅ Published to the job board.
+            File: /jobs/${{ fromJson(github.event.issue.body).slug }}.json
+            Index updated: /jobs/jobs.json
