@@ -2,17 +2,18 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened]
 
 permissions:
-  contents: write   # let the workflow commit files
-  issues: write     # let the workflow comment/close issues
+  contents: write
+  issues: write
 
 jobs:
   convert:
-    # only run if the issue has label "job"
     if: contains(toJson(github.event.issue.labels), 'job')
     runs-on: ubuntu-latest
+    steps:
+      # (leave the rest exactly as you have it)
 
     steps:
       - name: Checkout
