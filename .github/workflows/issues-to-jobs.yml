@@ -1,0 +1,71 @@
+name: Convert job Issues to JSON
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  convert:
+    # only run if the issue has label "job"
+    if: contains(toJson(github.event.issue.labels), 'job')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Ensure jq is available
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Validate issue body is JSON
+        run: |
+          echo '${{ github.event.issue.body }}' | jq . > /dev/null
+        shell: bash
+
+      - name: Parse issue body and save /jobs/{slug}.json
+        run: |
+          set -e
+          mkdir -p jobs
+          BODY='${{ github.event.issue.body }}'
+
+          # write body to temp, then extract slug
+          echo "$BODY" > jobs/_incoming.json
+          SLUG=$(jq -r '.slug' jobs/_incoming.json)
+
+          if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
+            echo "❌ Missing slug in issue body JSON."
+            exit 1
+          fi
+
+          # save final job file
+          cp jobs/_incoming.json "jobs/${SLUG}.json"
+          rm jobs/_incoming.json
+
+      - name: Rebuild jobs.json index
+        run: |
+          set -e
+          shopt -s nullglob
+          FILES=(jobs/*.json)
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "[]" > jobs/jobs.json
+          else
+            # combine all job files; remove descriptionHtml for the index
+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
+          fi
+
+      - name: Commit JSON + index
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs/*.json
+          git commit -m "Publish job from Issue #${{ github.event.issue.number }}" || echo "No changes"
+          git push
+
+      - name: Comment + close Issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: |
+            ✅ Thanks! This internship has been published to the job board.
+            File: `/jobs/${{ fromJson(github.event.issue.body).slug }}.json`
+            Index updated: `/jobs/jobs.json`
