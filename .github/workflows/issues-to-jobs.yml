@@ -2,7 +2,7 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [opened, labeled]   # run when created OR when labels are added later
+    types: [labeled]   # run once when labels are added
 
 permissions:
   contents: write
