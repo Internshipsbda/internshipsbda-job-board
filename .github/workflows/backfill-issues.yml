@@ -22,9 +22,9 @@ jobs:
         run: |
           set -e
           mkdir -p jobs
-          page=1
-          > jobs/_numbers.txt
+          : > jobs/_numbers.txt
 
+          page=1
           while :; do
             RESP=$(curl -sfSL \
               -H "Authorization: Bearer $GH_TOKEN" \
@@ -34,19 +34,52 @@ jobs:
             [ "$count" -eq 0 ] && break
 
             echo "$RESP" | jq -c '.[]' | while read -r issue; do
-              BODY=$(echo "$issue" | jq -r '.body')
-              NUM=$(echo "$issue"  | jq -r '.number')
-              echo "$BODY" | jq . > jobs/_tmp.json
+              NUM=$(echo "$issue" | jq -r '.number')
+              BODY_RAW=$(echo "$issue" | jq -r '.body // ""')
+
+              # Normalize CRLF + trim
+              BODY=$(printf "%s" "$BODY_RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+              # Strip ``` fences if present
+              if printf "%s" "$BODY" | head -1 | grep -qE '^```'; then
+                BODY=$(printf "%s" "$BODY" | sed -E '1s/^```(json|JSON)?[[:space:]]*//; $s/[[:space:]]*```$//')
+              fi
+
+              # If body is a JSON string (double-encoded), unquote once
+              if printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
+                TYPE=$(printf "%s" "$BODY" | jq -r 'type' || echo "")
+                if [ "$TYPE" = "string" ]; then
+                  INNER=$(printf "%s" "$BODY" | jq -r . 2>/dev/null || echo "")
+                  if printf "%s" "$INNER" | jq -e . >/dev/null 2>&1; then
+                    BODY="$INNER"
+                  fi
+                fi
+              fi
+
+              # Final validation; if invalid -> skip, don't fail
+              if ! printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
+                echo "⚠️  Skipping Issue #$NUM (not valid JSON). First 120 chars:"
+                echo "    $(printf "%s" "$BODY_RAW" | tr -d '\r' | head -c 120)"
+                continue
+              fi
+
+              printf "%s" "$BODY" | jq . > jobs/_tmp.json
               SLUG=$(jq -r '.slug' jobs/_tmp.json)
-              [ -z "$SLUG" ] || [ "$SLUG" = "null" ] && continue
+
+              if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
+                echo "⚠️  Skipping Issue #$NUM (no 'slug' field)."
+                continue
+              fi
+
               cp jobs/_tmp.json "jobs/${SLUG}.json"
               echo "$NUM" >> jobs/_numbers.txt
+              echo "✅ Converted Issue #$NUM -> jobs/${SLUG}.json"
             done
 
             page=$((page+1))
           done
 
-          # build index
+          # Build index
           shopt -s nullglob
           FILES=(jobs/*.json)
           if [ ${#FILES[@]} -eq 0 ]; then
@@ -59,7 +92,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jobs/*.json
+          git add jobs/*.json jobs/jobs.json
           git commit -m "Backfill: convert existing job Issues to JSON" || echo "No changes"
           git push
 
