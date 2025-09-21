@@ -1,26 +1,29 @@
 name: Backfill existing job Issues
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
 
 jobs:
   backfill:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: sudo apt-get update && sudo apt-get install -y jq curl
 
-      - name: Install tools
-        run: sudo apt-get update && sudo apt-get install -y jq curl
-
-      - name: Fetch open issues with label=job
+      - name: Fetch open issues with label=job and convert
         env:
           GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           set -e
           mkdir -p jobs
           page=1
-          all=()
+          > jobs/_numbers.txt
 
           while :; do
             RESP=$(curl -sfSL \
@@ -35,6 +38,7 @@ jobs:
               NUM=$(echo "$issue"  | jq -r '.number')
               echo "$BODY" | jq . > jobs/_tmp.json
               SLUG=$(jq -r '.slug' jobs/_tmp.json)
+              [ -z "$SLUG" ] || [ "$SLUG" = "null" ] && continue
               cp jobs/_tmp.json "jobs/${SLUG}.json"
               echo "$NUM" >> jobs/_numbers.txt
             done
