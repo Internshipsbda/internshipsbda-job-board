@@ -96,16 +96,38 @@ jobs:
           git commit -m "Backfill: convert existing job Issues to JSON" || echo "No changes"
           git push
 
-      - name: Close backfilled Issues
-        if: hashFiles('jobs/_numbers.txt') != ''
+           - name: Close backfilled Issues
+        if: always()   # run even if previous step was a no-op
         env:
           GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
+          set -e
+          if [ ! -f jobs/_numbers.txt ] || [ ! -s jobs/_numbers.txt ]; then
+            echo "No converted issues to close (jobs/_numbers.txt missing or empty)."
+            exit 0
+          fi
+
+          echo "Closing the following issues:"
+          cat jobs/_numbers.txt
+
           while read -r num; do
+            echo -n "Closing #$num ... "
             curl -sfSL -X PATCH \
               -H "Authorization: Bearer $GH_TOKEN" \
               -H "Accept: application/vnd.github+json" \
               -d '{"state":"closed"}' \
-              "https://api.github.com/repos/$GH_REPO/issues/$num"
+              "https://api.github.com/repos/$GH_REPO/issues/$num" > /dev/null
+            echo "done"
           done < jobs/_numbers.txt
+
+      - name: Report converted count
+        shell: bash
+        run: |
+          if [ -s jobs/_numbers.txt ]; then
+            echo "Converted $(wc -l < jobs/_numbers.txt) issue(s):"
+            cat jobs/_numbers.txt
+          else
+            echo "Converted 0 issues."
+          fi
