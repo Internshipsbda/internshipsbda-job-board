@@ -15,6 +15,8 @@ const jobs = fs.readdirSync(jobsDir)
   })
   .filter(j => !j.applyBy || new Date(j.applyBy) >= today)
   .map(({ descriptionHtml, ...rest }) => rest);
+  .map(({ descriptionHtml, isPaid, ...rest }) => ({ isPaid, ...rest }));
+
 
 fs.writeFileSync(indexPath, JSON.stringify(jobs, null, 2));
 console.log(`Wrote ${jobs.length} jobs to jobs.json`);
