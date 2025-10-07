@@ -95,7 +95,7 @@
                ${job.location || "Location unknown"}
                ${job.applyBy ? " • Apply by " + formatDate(job.applyBy) : ""}
             </div>
-
+               <a class="link" href="detail.html?slug=${job.slug}">Read More</a>
           </article>
         `);
       });
