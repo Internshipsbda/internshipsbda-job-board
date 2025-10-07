@@ -5,66 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Internship</title>
   <style>
-    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg:#f9fafb; }
+    :root {
+      --brand:#ff914d;
+      --ink:#111;
+      --muted:#6b7280;
+      --card:#fff;
+      --bg:#f9fafb;
+    }
+
     body {
-  font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #111;
-  background: transparent;
-  margin: 0;
-  padding: 24px;
-}
+      font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--ink);
+      background: transparent;
+      margin: 0;
+      padding: 24px;
+    }
 
-.card {
-  background: #D1DBE0; /* Keep card color as is */
-  border-radius: 14px;
-  padding: 16px;
-  border: 1px solid #eee;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  font-family: "Inter Tight", sans-serif;
-  font-weight: 500;
-  line-height: 1.02em;
-  letter-spacing: 0em;
-}
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
-.title {
-  font-family: "Raleway", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.3;
-}
+    .hero {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
 
-.btn {
-  font-family: "Raleway", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid #111;
-  display: inline-block;
-  text-align: center;
-  color: #111;
-  background: #fff;
-  cursor: pointer;
-}
+    .hero img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #e5e7eb;
+      flex-shrink: 0;
+    }
 
-.meta, .tag {
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.02em;
-}
+    .hero .kicker {
+      font-family: "Raleway", sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
 
-.empty, .footer {
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  color: #777;
-}
-    .cta { display:inline-block; background:var(--brand); color:#fff; padding:12px 16px; border-radius:10px; font-weight:700; }
-    .back { display:inline-block; margin-bottom:8px; }
-    .notfound { margin-top:48px; color:var(--muted); }
+    .hero h1 {
+      font-family: "Raleway", sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin: 0 0 6px;
+    }
+
+    .hero .meta {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .meta {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .description {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .notfound {
+      margin-top: 48px;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -77,31 +118,43 @@
     const slug = new URLSearchParams(location.search).get("slug");
     const BASE = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/";
 
+    function formatDate(dateStr) {
+      if (!dateStr) return "TBD";
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
     function notFound() {
       document.title = "Job not found";
       document.getElementById('content').innerHTML = '<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>';
     }
 
-    if (!slug) { notFound(); }
-    else {
+    if (!slug) {
+      notFound();
+    } else {
       fetch(`${BASE}${slug}.json`).then(r => r.ok ? r.json() : Promise.reject())
-      .then(job => {
-        document.title = `${job.title} at ${job.company} | Internships`;
-        const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
-        document.getElementById('content').innerHTML = `
-          <div class="hero">
-            <img src="${img}" alt="${job.company} logo">
-            <div>
-              <div class="kicker">${(job.sector||[]).join(", ") || "opportunity"}</div>
-              <h1>${job.title}</h1>
-              <div class="meta">${job.company} • ${job.location}</div>
+        .then(job => {
+          document.title = `${job.title} at ${job.company} | Internships`;
+          const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+          document.getElementById('content').innerHTML = `
+            <div class="hero">
+              <img src="${img}" alt="${job.company} logo">
+              <div>
+                <div class="kicker">${job.title}</div>
+                <h1>${job.company}</h1>
+                <div class="meta">${job.location}</div>
+              </div>
             </div>
-          </div>
-          <div class="meta">Start: ${job.startDate || "TBD"} • End: ${job.endDate || "TBD"} • Apply by: ${job.applyBy || "TBD"}</div>
-          <div>${job.descriptionHtml || "<p>No description provided.</p>"}</div>
-          <p><a class="cta" href="${job.applyLink}" target="_blank" rel="noopener">Apply Now</a></p>
-        `;
-      }).catch(notFound);
+            <div class="meta">Start: ${formatDate(job.startDate)} • End: ${formatDate(job.endDate)} • Apply by: ${formatDate(job.applyBy)}</div>
+            <div class="description">${job.descriptionHtml || "<p>No description provided.</p>"}</div>
+            <p><a class="cta" href="${job.applyLink}" target="_blank" rel="noopener">Apply Now</a></p>
+          `;
+        })
+        .catch(notFound);
     }
   </script>
 </body>
