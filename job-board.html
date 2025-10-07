@@ -4,15 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Internship Job Board</title>
+  
   <style>
     /* built-in styling so you don’t touch separate CSS files */
-    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg:#f3f4f6; }
-    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg: transparent; }
+    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background: transparent; }
     .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
-    h1 { font-size: 28px; margin: 0 0 16px; }
+   
     .controls { display:flex; gap:8px; flex-wrap: wrap; margin-bottom:16px; }
     .controls input, .controls select { padding:10px 12px; border:1px solid #d1d5db; border-radius:8px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+    
     .card { background:var(--card); border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.04); }
     .img { height:220px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; overflow:hidden; }
     .img img { width:100%; height:100%; object-fit:cover; }
@@ -28,14 +30,22 @@
   <div class="wrap">
 
     <div class="controls">
-      <input id="search" placeholder="Search title or company" />
-      <select id="sector"><option value="">All sectors</option></select>
+      <input id="search" placeholder="Search Title or Company" />
+      
+      <select id="sector">
+        <option value="">All sectors</option>
+      </select>
+      
       <select id="location">
-        <option value="">All locations</option>
-        <option>Remote</option>
+        <option value="">All locations</option></select>
+       
+      <select id="delivery">
+         <option value="">All delivery</option>
+         <option>Remote</option>
         <option>Hybrid</option>
         <option>In-Person</option>
       </select>
+     
       <select id="paid">
     <option value="">All</option>
     <option value="paid">Paid</option>
