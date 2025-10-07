@@ -42,6 +42,12 @@
         <option value="deadline">Deadline soonest</option>
       </select>
     </div>
+    
+<div id="filters" class="controls">
+  <button data-filter="all" class="filter-btn active">All</button>
+  <button data-filter="paid" class="filter-btn">Paid</button>
+  <button data-filter="unpaid" class="filter-btn">Unpaid</button>
+</div>
 
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none;">No internships match your filters.</div>
@@ -62,7 +68,7 @@
         const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
         const sector = (job.sector && job.sector[0]) ? job.sector[0] : "opportunity";
         g.insertAdjacentHTML("beforeend", `
-          <article class="card">
+         <article class="card" data-paid="${job.isPaid ? "paid" : "unpaid"}">
             <div class="img"><img src="${img}" alt="${job.company} logo" /></div>
             <div class="pad">
               <div class="kicker">${sector}</div>
@@ -123,9 +129,18 @@
   function filterJobs(type) {
     const cards = document.querySelectorAll(".card");
     let visibleCount = 0;
+<div class="controls">
+  <!-- Existing search, sector, location, etc. -->
+
+  <!-- Add these new buttons for paid/unpaid filters -->
+  <button onclick="filterJobs('all')">All</button>
+  <button onclick="filterJobs('paid')">Paid</button>
+  <button onclick="filterJobs('unpaid')">Unpaid</button>
+</div>
 
     cards.forEach(card => {
       const label = card.getAttribute("data-paid");
+      
 
       if (type === "all" || label === type) {
         card.style.display = "block";
