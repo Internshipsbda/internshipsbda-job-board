@@ -67,8 +67,12 @@
     const FETCH_URL = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/jobs.json";
 
     function formatDate(dateStr) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateStr).toLocaleDateString('en-US', options);
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 }
 
     function render(list) {
@@ -87,9 +91,11 @@
             <div class="pad">
               <div class="kicker">${job.company}</div>
               <div class="title">${job.title}</div>
-              <div class="meta">${job.location}${job.applyBy ? " • Apply by " + formatDate(job.applyBy) : ""}</div>
-              <a class="link" href="detail.html?slug=${job.slug}">Read More</a>
+              <div class="meta">
+               ${job.location || "Location unknown"}
+               ${job.applyBy ? " • Apply by " + formatDate(job.applyBy) : ""}
             </div>
+
           </article>
         `);
       });
