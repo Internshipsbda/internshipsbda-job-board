@@ -22,6 +22,9 @@
 </head>
 <body>
   <div class="sub">Browse open opportunities. Cards show <strong>title</strong> and whether it’s <strong>Paid/Unpaid</strong>. Click for full details.</div>
+<select id="location">
+  <option value="">All locations</option>
+</select>
 
 <!-- JOB LISTINGS -->
   <div id="board" class="grid" aria-live="polite"></div>
@@ -56,44 +59,66 @@
         const res = await fetch(issuesUrl, { headers: { "Accept": "application/vnd.github+json" }});
         const issues = await res.json();
         board.innerHTML = "";
+        
+// ✅ Fill location dropdown
+    const locationSet = new Set();
+    issues.forEach(j => {
+      const meta = extractMeta(j.body || "");
+      if (meta.location) locationSet.add(meta.location);
+    });
+    [...locationSet].sort().forEach(loc => {
+      locationSelect.insertAdjacentHTML("beforeend", `<option>${loc}</option>`);
+    });
 
-        const cards = issues
-          .filter(it => !it.pull_request) // safety
-          .map(it => {
-            const meta = extractMeta(it.body || "");
-            const isExpired = !!meta.isExpired; // boolean from your flow
-            if (isExpired) return null;        // auto-hide expired
+    // Build cards
+    const cards = issues
+      .filter(it => !it.pull_request)
+      .map(it => {
+        const meta = extractMeta(it.body || "");
+        if (meta.isExpired) return null;
 
-            const jobTitle = cleanTitle(it.title);
-            const isPaid = !!meta.isPaid;
-            const paidText = isPaid ? "Paid" : "Unpaid";
+        const jobTitle = cleanTitle(it.title);
+        const isPaid = !!meta.isPaid;
+        const paidText = isPaid ? "Paid" : "Unpaid";
+        const location = meta.location || "";
 
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-              <div class="title">${jobTitle}</div>
-              <div class="meta">
-                <span class="tag ${isPaid ? "paid" : "unpaid"}">${paidText}</span>
-              </div>
-              <a class="btn" href="${it.html_url}" target="_blank" rel="noopener">More info</a>
-            `;
-            return card;
-          })
-          .filter(Boolean);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="title">${jobTitle}</div>
+          <div class="meta">
+            <span class="tag ${isPaid ? "paid" : "unpaid"}">${paidText}</span>
+            <span class="tag">${location}</span> <!-- ✅ show location on card -->
+          </div>
+          <a class="btn" href="${it.html_url}" target="_blank" rel="noopener">More info</a>
+        `;
+        return card;
+      })
+      .filter(Boolean);
 
-        if (!cards.length) {
-          empty.style.display = "block";
-          return;
-        }
-
-        const frag = document.createDocumentFragment();
-        cards.forEach(c => frag.appendChild(c));
-        board.appendChild(frag);
-      } catch (e) {
-        board.innerHTML = "Couldn’t load listings. Refresh in a moment.";
-        console.error(e);
-      }
+    if (!cards.length) {
+      empty.style.display = "block";
+      return;
     }
+
+    const frag = document.createDocumentFragment();
+    cards.forEach(c => frag.appendChild(c));
+    board.appendChild(frag);
+
+    // ✅ Filter by location
+    locationSelect.addEventListener("change", () => {
+      const selected = locationSelect.value;
+      [...board.children].forEach(card => {
+        const matches = selected === "" || card.textContent.includes(selected);
+        card.style.display = matches ? "flex" : "none";
+      });
+    });
+
+  } catch (e) {
+    board.innerHTML = "Couldn’t load listings. Refresh in a moment.";
+    console.error(e);
+  }
+}
 
     loadBoard();
   </script>
