@@ -129,14 +129,6 @@
   function filterJobs(type) {
     const cards = document.querySelectorAll(".card");
     let visibleCount = 0;
-<div class="controls">
-  <!-- Existing search, sector, location, etc. -->
-
-  <!-- Add these new buttons for paid/unpaid filters -->
-  <button onclick="filterJobs('all')">All</button>
-  <button onclick="filterJobs('paid')">Paid</button>
-  <button onclick="filterJobs('unpaid')">Unpaid</button>
-</div>
 
     cards.forEach(card => {
       const label = card.getAttribute("data-paid");
