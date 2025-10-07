@@ -66,6 +66,11 @@
     // 1) Where to load the list from (this is YOUR repo path)
     const FETCH_URL = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/jobs.json";
 
+    function formatDate(dateStr) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateStr).toLocaleDateString('en-US', options);
+}
+
     function render(list) {
       const g = document.getElementById('grid');
       const empty = document.getElementById('empty');
@@ -80,9 +85,9 @@
          <article class="card" data-paid="${job.isPaid ? "paid" : "unpaid"}">
             <div class="img"><img src="${img}" alt="${job.company} logo" /></div>
             <div class="pad">
-              <div class="kicker">${sector}</div>
-              <div class="title">${job.title} — ${job.company}</div>
-              <div class="meta">${job.location}${job.applyBy ? " • apply by " + job.applyBy : ""}</div>
+              <div class="kicker">${job.company}</div>
+              <div class="title">${job.title}</div>
+              <div class="meta">${job.location}${job.applyBy ? " • Apply by " + formatDate(job.applyBy) : ""}</div>
               <a class="link" href="detail.html?slug=${job.slug}">Read More</a>
             </div>
           </article>
