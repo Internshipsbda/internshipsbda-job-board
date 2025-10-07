@@ -23,6 +23,14 @@
 <body>
   <div class="sub">Browse open opportunities. Cards show <strong>title</strong> and whether it’s <strong>Paid/Unpaid</strong>. Click for full details.</div>
 
+  <!-- FILTER BAR (Step 13.2) -->
+<div id="filter-bar">
+  <button onclick="filterJobs('all')">All</button>
+  <button onclick="filterJobs('paid')">Paid</button>
+  <button onclick="filterJobs('unpaid')">Unpaid</button>
+</div>
+
+<!-- JOB LISTINGS -->
   <div id="board" class="grid" aria-live="polite"></div>
   <div id="empty" class="empty" style="display:none;">No open internships right now.</div>
 
