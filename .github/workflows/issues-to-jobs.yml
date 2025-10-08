@@ -2,8 +2,11 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [labeled]   # run once when labels are added
+    types: [labeled]    # run once when labels are added
 
+  workflow_dispatch:
+
+  
 permissions:
   contents: write
   issues: write
