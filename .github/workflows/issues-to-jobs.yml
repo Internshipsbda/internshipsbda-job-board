@@ -3,10 +3,8 @@ name: Convert job Issues to JSON
 on:
   issues:
     types: [labeled]    # run once when labels are added
-
   workflow_dispatch:
 
-  
 permissions:
   contents: write
   issues: write
@@ -75,33 +73,30 @@ jobs:
           rm jobs/_incoming.json
 
       - name: Rebuild jobs.json index
-  run: |
-    set -e
-    shopt -s nullglob
-    FILES=(jobs/*.json)
-    echo "Found ${#FILES[@]} job files."
+        run: |
+          set -e
+          shopt -s nullglob
+          FILES=(jobs/*.json)
+          echo "Found ${#FILES[@]} job files."
 
-    if [ ${#FILES[@]} -eq 0 ]; then
-      echo "[]" > jobs/jobs.json
-    else
-      echo "Combining files into jobs.json index..."
-      jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
-        echo "❌ jq failed to parse at least one job file. Dumping contents:"
-        cat "${FILES[@]}"
-        exit 1
-      }
-    fi
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "[]" > jobs/jobs.json
+          else
+            echo "Combining files into jobs.json index..."
+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
+              echo "❌ jq failed to parse at least one job file. Dumping contents:"
+              cat "${FILES[@]}"
+              exit 1
+            }
+          fi
 
-
-
-     - name: Commit JSON + index
-  run: |
-    git config user.name  "github-actions[bot]"
-    git config user.email "github-actions[bot]@users.noreply.github.com"
-    git add jobs/*.json
-    git commit -m "Auto update job files + index" || echo "No changes"
-    git push
-
+      - name: Commit JSON + index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs/*.json
+          git commit -m "Auto update job files + index" || echo "No changes"
+          git push
 
       - name: Comment and close Issue
         if: steps.skip.outputs.exists == 'false'
