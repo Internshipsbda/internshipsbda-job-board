@@ -1,0 +1,135 @@
+[
+  {
+    "slug": "advertising-intern-after-hours-09f239",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2026-06-01",
+    "endDate": "2025-06-14",
+    "applyBy": "2026-02-01",
+    "createdDate": "2025-10-08T19:57:30.7574285Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
+    "slug": "advertising-intern-after-hours-09f239",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2026-06-01",
+    "endDate": "2025-06-14",
+    "applyBy": "2026-02-01",
+    "createdDate": "2025-10-08T19:57:30.7574285Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
+    "slug": "advertising-intern-after-hours-5160ef",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2026-06-01",
+    "endDate": "2025-06-14",
+    "applyBy": "2026-02-01",
+    "createdDate": "2025-10-08T18:13:32.9768476Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
+    "slug": "advertising-intern-after-hours-a59a3f",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2026-06-01",
+    "endDate": "2025-06-14",
+    "applyBy": "2026-02-01",
+    "createdDate": "2025-10-08T19:23:28.3632617Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
+    "slug": "advertising-intern-after-hours-a81b8b",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "",
+    "endDate": "",
+    "applyBy": "",
+    "createdDate": "2025-10-08T15:32:12.8503112Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
+    "slug": "marketing-intern-skillcraft",
+    "title": "Marketing Intern",
+    "company": "SkillCraft",
+    "companySlug": "skillcraft",
+    "sector": [
+      "Marketing"
+    ],
+    "location": "Hybrid",
+    "startDate": "2025-10-01",
+    "endDate": "2026-03-01",
+    "applyBy": "2025-12-31",
+    "createdDate": "2025-09-18T12:00:00Z",
+    "applyLink": "https://example.com/apply",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg"
+  },
+  {
+    "slug": "pipeline-test",
+    "title": "Pipeline Test",
+    "company": "SkillCraft",
+    "companySlug": "skillcraft",
+    "sector": [
+      "Marketing"
+    ],
+    "location": "Hybrid",
+    "startDate": "2025-10-01",
+    "endDate": "2026-03-01",
+    "applyBy": "2025-12-31",
+    "createdDate": "2025-09-19T12:00:00Z",
+    "applyLink": "https://example.com/apply",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg"
+  },
+  {
+    "slug": "test-marketing-intern",
+    "title": "Marketing Intern (TEST)",
+    "company": "SkillCraft",
+    "companySlug": "skillcraft",
+    "sector": [
+      "Marketing"
+    ],
+    "location": "Hybrid",
+    "startDate": "2025-10-01",
+    "endDate": "2026-03-01",
+    "applyBy": "2025-12-31",
+    "createdDate": "2025-09-19T12:00:00Z",
+    "applyLink": "https://example.com/apply",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg"
+  }
+]
