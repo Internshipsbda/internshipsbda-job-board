@@ -104,6 +104,8 @@
     }
 
     fetch(FETCH_URL).then(r => r.json()).then(jobs => {
+      console.log(jobs);
+      
       // Hide expired (applyBy in the past)
       const today = new Date();
       jobs = jobs.filter(j => !j.applyBy || new Date(j.applyBy) >= today);
