@@ -2,17 +2,16 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened, edited, labeled]
 
 jobs:
   convert:
-    # only run if the issue has label "job"
     if: contains(toJson(github.event.issue.labels), 'job')
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Ensure jq is available
         run: sudo apt-get update && sudo apt-get install -y jq
@@ -31,14 +30,29 @@ jobs:
           # write body to temp, then extract slug
           echo "$BODY" > jobs/_incoming.json
           SLUG=$(jq -r '.slug' jobs/_incoming.json)
+          TITLE=$(jq -r '.title' jobs/_incoming.json)
+          COMPANY=$(jq -r '.company' jobs/_incoming.json)
+          LOCATION=$(jq -r '.location' jobs/_incoming.json)
+          START=$(jq -r '.startDate' jobs/_incoming.json)
+          END=$(jq -r '.endDate' jobs/_incoming.json)
+          APPLYBY=$(jq -r '.applyBy' jobs/_incoming.json)
+          DESCRIPTION=$(jq -r '.descriptionHtml' jobs/_incoming.json)
 
           if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
             echo "❌ Missing slug in issue body JSON."
             exit 1
           fi
 
-          # save final job file
-          cp jobs/_incoming.json "jobs/${SLUG}.json"
+          # format into clean JSON with readable date format
+          jq --arg title "$TITLE" \
+             --arg company "$COMPANY" \
+             --arg location "$LOCATION" \
+             --arg start "$START" \
+             --arg end "$END" \
+             --arg apply "$APPLYBY" \
+             --arg description "$DESCRIPTION" \
+             '{slug: .slug, title: $title, company: $company, location: $location, startDate: $start, endDate: $end, applyBy: $apply, descriptionHtml: $description}' jobs/_incoming.json > "jobs/${SLUG}.json"
+
           rm jobs/_incoming.json
 
       - name: Rebuild jobs.json index
@@ -49,7 +63,6 @@ jobs:
           if [ ${#FILES[@]} -eq 0 ]; then
             echo "[]" > jobs/jobs.json
           else
-            # combine all job files; remove descriptionHtml for the index
             jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
           fi
 
