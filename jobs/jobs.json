@@ -1,5 +1,4 @@
 - name: Rebuild jobs.json index
-  
   run: |
     set -e
     shopt -s nullglob
