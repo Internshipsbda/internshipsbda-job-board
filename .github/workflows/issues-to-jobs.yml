@@ -75,7 +75,7 @@ jobs:
           rm jobs/_incoming.json
 
       - name: Rebuild jobs.json index
-        run: |
+  run: |
     set -e
     shopt -s nullglob
     FILES=(jobs/*.json)
@@ -93,14 +93,15 @@ jobs:
     fi
 
 
-      - name: Commit JSON + index
-        if: steps.skip.outputs.exists == 'false'
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jobs/*.json
-          git commit -m "Publish job from Issue #${{ github.event.issue.number }}" || echo "No changes"
-          git push
+
+     - name: Commit JSON + index
+  run: |
+    git config user.name  "github-actions[bot]"
+    git config user.email "github-actions[bot]@users.noreply.github.com"
+    git add jobs/*.json
+    git commit -m "Auto update job files + index" || echo "No changes"
+    git push
+
 
       - name: Comment and close Issue
         if: steps.skip.outputs.exists == 'false'
