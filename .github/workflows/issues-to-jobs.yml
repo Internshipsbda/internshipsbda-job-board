@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   convert:
-    # proceed only if a label literally named "job" is on the issue
     if: contains(join(fromJson(toJson(github.event.issue.labels)).*.name, ','), 'job')
     runs-on: ubuntu-latest
 
@@ -28,19 +27,15 @@ jobs:
           set -e
           RAW='${{ github.event.issue.body }}'
 
-          # Normalize newlines and trim
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
-          # If wrapped in ```json ... ``` fences, strip them
           if printf "%s\n" "$CLEAN" | grep -qE '^```'; then
             CLEAN=$(printf "%s" "$CLEAN" | sed -E '1s/^```(json|JSON)?[[:space:]]*//; $s/[[:space:]]*```$//')
           fi
 
-          # Try parse as JSON (object/array/string/etc.)
           if printf "%s" "$CLEAN" | jq -e . > /dev/null 2>&1; then
             TYPE=$(printf "%s" "$CLEAN" | jq -r 'type')
             if [ "$TYPE" = "string" ]; then
-              # Body is a JSON string containing JSON -> unquote it once
               INNER=$(printf "%s" "$CLEAN" | jq -r .)
               if printf "%s" "$INNER" | jq -e . > /dev/null 2>&1; then
                 CLEAN="$INNER"
@@ -52,14 +47,12 @@ jobs:
             echo "❌ Issue body is not valid JSON."; exit 1
           fi
 
-          # Save normalized JSON to file and expose slug
           mkdir -p jobs
           printf "%s" "$CLEAN" | jq . > jobs/_incoming.json
           SLUG=$(jq -r '.slug' jobs/_incoming.json)
           if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
             echo "❌ Missing 'slug' field in JSON."; exit 1
           fi
-
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
 
       - name: Skip if already published
@@ -79,23 +72,22 @@ jobs:
           rm jobs/_incoming.json
 
       - name: Rebuild jobs.json index
-  run: |
-    set -e
-    shopt -s nullglob
-    FILES=(jobs/*.json)
-    echo "Found ${#FILES[@]} job files."
+        run: |
+          set -e
+          shopt -s nullglob
+          FILES=(jobs/*.json)
+          echo "Found ${#FILES[@]} job files."
 
-    if [ ${#FILES[@]} -eq 0 ]; then
-      echo "[]" > jobs/jobs.json
-    else
-      echo "Combining files into jobs.json index..."
-      jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
-        echo "❌ jq failed to parse at least one job file. Dumping contents:"
-        cat "${FILES[@]}"
-        exit 1
-      }
-    fi
-
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "[]" > jobs/jobs.json
+          else
+            echo "Combining files into jobs.json index..."
+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
+              echo "❌ jq failed to parse at least one job file. Dumping contents:"
+              cat "${FILES[@]}"
+              exit 1
+            }
+          fi
 
       - name: Commit JSON + index
         if: steps.skip.outputs.exists == 'false'
