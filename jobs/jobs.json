@@ -1,17 +1,15 @@
-- name: Rebuild jobs.json index
-  run: |
-    set -e
-    shopt -s nullglob
-    FILES=(jobs/*.json)
-    echo "Found ${#FILES[@]} job files."
-
-    if [ ${#FILES[@]} -eq 0 ]; then
-      echo "[]" > jobs/jobs.json
-    else
-      echo "Combining files into jobs.json index..."
-      jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
-        echo "❌ jq failed to parse at least one job file. Dumping contents:"
-        cat "${FILES[@]}"
-        exit 1
-      }
-    fi
+[
+  {
+    "slug": "advertising-intern-after-hours-a81b8b",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": ["Graphic Art"],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2025-10-08",
+    "endDate": "2025-12-01",
+    "applyBy": "2025-10-20",
+    "createdDate": "2025-10-08T15:32:12.850Z",
+    "isPaid": false
+  }
+]
