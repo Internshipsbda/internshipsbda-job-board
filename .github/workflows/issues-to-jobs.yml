@@ -78,17 +78,24 @@ jobs:
           cp jobs/_incoming.json "jobs/${{ steps.norm.outputs.slug }}.json"
           rm jobs/_incoming.json
 
-      - name: Rebuild jobs index (jobs/jobs.json)
-        if: steps.skip.outputs.exists == 'false'
-        shell: bash
-        run: |
-          shopt -s nullglob
-          FILES=(jobs/*.json)
-          if [ ${#FILES[@]} -eq 0 ]; then
-            echo "[]" > jobs/jobs.json
-          else
-            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
-          fi
+      - name: Rebuild jobs.json index
+  run: |
+    set -e
+    shopt -s nullglob
+    FILES=(jobs/*.json)
+    echo "Found ${#FILES[@]} job files."
+
+    if [ ${#FILES[@]} -eq 0 ]; then
+      echo "[]" > jobs/jobs.json
+    else
+      echo "Combining files into jobs.json index..."
+      jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
+        echo "❌ jq failed to parse at least one job file. Dumping contents:"
+        cat "${FILES[@]}"
+        exit 1
+      }
+    fi
+
 
       - name: Commit JSON + index
         if: steps.skip.outputs.exists == 'false'
