@@ -2,8 +2,8 @@ name: Convert job Issues to JSON
 
 on:
   issues:
-    types: [labeled]    # run once when labels are added
-  workflow_dispatch:
+    types: [labeled]    # triggered when labels are added
+  workflow_dispatch:     # allows manual re-run
 
 permissions:
   contents: write
@@ -28,12 +28,13 @@ jobs:
           set -e
           RAW='${{ github.event.issue.body }}'
 
+          # Clean and strip formatting
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-
           if printf "%s\n" "$CLEAN" | grep -qE '^```'; then
             CLEAN=$(printf "%s" "$CLEAN" | sed -E '1s/^```(json|JSON)?[[:space:]]*//; $s/[[:space:]]*```$//')
           fi
 
+          # Validate and extract
           if printf "%s" "$CLEAN" | jq -e . > /dev/null 2>&1; then
             TYPE=$(printf "%s" "$CLEAN" | jq -r 'type')
             if [ "$TYPE" = "string" ]; then
@@ -41,7 +42,7 @@ jobs:
               if printf "%s" "$INNER" | jq -e . > /dev/null 2>&1; then
                 CLEAN="$INNER"
               else
-                echo "❌ Body is a JSON string but not valid JSON inside."; exit 1
+                echo "❌ JSON string content is invalid."; exit 1
               fi
             fi
           else
@@ -56,18 +57,7 @@ jobs:
           fi
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
 
-      - name: Skip if already published
-        id: skip
-        shell: bash
-        run: |
-          if [ -f "jobs/${{ steps.norm.outputs.slug }}.json" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Save jobs/{slug}.json
-        if: steps.skip.outputs.exists == 'false'
+      - name: Save jobs/{slug}.json (overwrite if exists)
         run: |
           cp jobs/_incoming.json "jobs/${{ steps.norm.outputs.slug }}.json"
           rm jobs/_incoming.json
@@ -84,7 +74,7 @@ jobs:
           else
             echo "Combining files into jobs.json index..."
             jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json || {
-              echo "❌ jq failed to parse at least one job file. Dumping contents:"
+              echo "❌ jq failed to parse one or more job files:"
               cat "${FILES[@]}"
               exit 1
             }
@@ -92,18 +82,17 @@ jobs:
 
       - name: Commit JSON + index
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add jobs/*.json
           git commit -m "Auto update job files + index" || echo "No changes"
           git push
 
       - name: Comment and close Issue
-        if: steps.skip.outputs.exists == 'false'
         uses: peter-evans/close-issue@v3
         with:
           issue-number: ${{ github.event.issue.number }}
           comment: |
-            ✅ Published to the job board.
+            ✅ Listing published or updated.
             File: /jobs/${{ steps.norm.outputs.slug }}.json
             Index updated: /jobs/jobs.json
