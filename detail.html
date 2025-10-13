@@ -88,4 +88,105 @@
       transition: 0.3s ease;
     }
 
-    .
+    .apply-button:hover {
+      background-color: #222;
+    }
+
+    .notfound {
+      max-width: 600px;
+      margin: 4rem auto;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .back {
+      display: block;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← Back to all internships</a>
+
+  <div class="card" id="job-card">
+    <p>Loading internship details...</p>
+  </div>
+
+  <script>
+    const slug = new URLSearchParams(location.search).get("slug");
+    const BASE = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/";
+
+    function formatDate(dateStr) {
+      if (!dateStr) return "TBD";
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function renderJob(job) {
+      const el = document.getElementById('job-card');
+      const applyLink = job.applyLink || "#";
+      const description = job.descriptionHtml || "<p>No description provided.</p>";
+      const location = job.location || "Bermuda";
+      const isPaid = job.isPaid ? "Paid" : "Unpaid";
+      const requirements = job.requirements || [];
+      const duration = job.duration || "10 weeks";
+      const type = job.type || "Internship";
+
+      el.innerHTML = `
+        <div class="header">${job.title}</div>
+        <div class="company">${job.company}</div>
+
+        <div class="location">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
+          </svg>
+          ${location}
+        </div>
+
+        <div class="section-title">Details</div>
+        <ul>
+          <li><strong>Type:</strong> ${type}</li>
+          <li><strong>Duration:</strong> ${duration}</li>
+          <li><strong>Start:</strong> ${formatDate(job.startDate)}</li>
+          <li><strong>End:</strong> ${formatDate(job.endDate)}</li>
+          <li><strong>Apply by:</strong> ${formatDate(job.applyBy)}</li>
+          <li><strong>Compensation:</strong> ${isPaid}</li>
+        </ul>
+
+        <div class="section-title">Requirements</div>
+        ${requirements.length > 0 ? `<ul>${requirements.map(r => `<li>${r}</li>`).join('')}</ul>` : `<p>No requirements listed.</p>`}
+
+        <div class="section-title">Description</div>
+        <div class="description">${description}</div>
+
+        ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
+      `;
+    }
+
+    function notFound() {
+      document.getElementById('job-card').innerHTML = `<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>`;
+    }
+
+    if (!slug) {
+      notFound();
+    } else {
+      fetch(`${BASE}${slug}.json`)
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(job => {
+          document.title = `${job.title} at ${job.company} | Internships`;
+          renderJob(job);
+        })
+        .catch(notFound);
+    }
+  </script>
+</body>
+</html>
