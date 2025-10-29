@@ -1,138 +1,138 @@
 
-+name: Backfill existing job Issues
+name: Backfill existing job Issues
 
-+on:
-+  workflow_dispatch: {}
-+
-+permissions:
-+  contents: write
-+  issues: write
-+
-+jobs:
-+  backfill:
-+    runs-on: ubuntu-latest
-+    steps:
-+      - uses: actions/checkout@v3
-+      - run: sudo apt-get update && sudo apt-get install -y jq curl
-+
-+      - name: Fetch open issues with label=job and convert
-+        env:
-+          GH_REPO: ${{ github.repository }}
-+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-+        shell: bash
-+        run: |
-+          set -e
-+          mkdir -p jobs
-+          : > jobs/_numbers.txt
-+
-+          page=1
-+          while :; do
-+            RESP=$(curl -sfSL \
-+              -H "Authorization: Bearer $GH_TOKEN" \
-+              -H "Accept: application/vnd.github+json" \
-+              "https://api.github.com/repos/$GH_REPO/issues?state=open&labels=job&per_page=100&page=$page")
-+            count=$(echo "$RESP" | jq 'length')
-+            [ "$count" -eq 0 ] && break
-+
-+            echo "$RESP" | jq -c '.[]' | while read -r issue; do
-+              NUM=$(echo "$issue" | jq -r '.number')
-+              BODY_RAW=$(echo "$issue" | jq -r '.body // ""')
-+
-+              # Normalize CRLF + trim
-+              BODY=$(printf "%s" "$BODY_RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-+
-+              # Strip ``` fences if present
-+              if printf "%s" "$BODY" | head -1 | grep -qE '^```'; then
-+                BODY=$(printf "%s" "$BODY" | sed -E '1s/^```(json|JSON)?[[:space:]]*//; $s/[[:space:]]*```$//')
-+              fi
-+
-+              # If body is a JSON string (double-encoded), unquote once
-+              if printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
-+                TYPE=$(printf "%s" "$BODY" | jq -r 'type' || echo "")
-+                if [ "$TYPE" = "string" ]; then
-+                  INNER=$(printf "%s" "$BODY" | jq -r . 2>/dev/null || echo "")
-+                  if printf "%s" "$INNER" | jq -e . >/dev/null 2>&1; then
-+                    BODY="$INNER"
-+                  fi
-+                fi
-+              fi
-+
-+              # Final validation; if invalid -> skip, don't fail
-+              if ! printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
-+                echo "⚠️  Skipping Issue #$NUM (not valid JSON). First 120 chars:"
-+                echo "    $(printf "%s" "$BODY_RAW" | tr -d '\r' | head -c 120)"
-+                continue
-+              fi
-+
-+              SLUG=$(printf "%s" "$BODY" | jq -r '.slug // empty')
-+              if [ -z "$SLUG" ]; then
-+                echo "⚠️  Skipping Issue #$NUM (no 'slug' field)."
-+                continue
-+              fi
-+
-+              printf "%s" "$BODY" | jq . > "jobs/${SLUG}.json"
-+              echo "$NUM" >> jobs/_numbers.txt
-+              echo "✅ Converted Issue #$NUM -> jobs/${SLUG}.json"
-+            done
-+
-+            page=$((page+1))
-+          done
-+
-+          # Build index
-+          shopt -s nullglob
-+          FILES=()
-+          for f in jobs/*.json; do
-+            if [ "$(basename "$f")" != "jobs.json" ]; then
-+              FILES+=("$f")
-+            fi
-+          done
-+
-+          if [ ${#FILES[@]} -eq 0 ]; then
-+            echo "[]" > jobs/jobs.json
-+          else
-+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
-+          fi
-+
-+      - name: Commit backfilled jobs
-+        run: |
-+          git config user.name  "github-actions[bot]"
-+          git config user.email "github-actions[bot]@users.noreply.github.com"
-+          git add jobs/*.json jobs/jobs.json
-+          git commit -m "Backfill: convert existing job Issues to JSON" || echo "No changes"
-+          git push
-+
-+      - name: Close backfilled Issues
-+        if: always()   # run even if previous step was a no-op
-+        env:
-+          GH_REPO: ${{ github.repository }}
-+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-+        shell: bash
-+        run: |
-+          set -e
-+          if [ ! -f jobs/_numbers.txt ] || [ ! -s jobs/_numbers.txt ]; then
-+            echo "No converted issues to close (jobs/_numbers.txt missing or empty)."
-+            exit 0
-+          fi
-+
-+          echo "Closing the following issues:"
-+          cat jobs/_numbers.txt
-+
-+          while read -r num; do
-+            echo -n "Closing #$num ... "
-+            curl -sfSL -X PATCH \
-+              -H "Authorization: Bearer $GH_TOKEN" \
-+              -H "Accept: application/vnd.github+json" \
-+              -d '{"state":"closed"}' \
-+              "https://api.github.com/repos/$GH_REPO/issues/$num" > /dev/null
-+            echo "done"
-+          done < jobs/_numbers.txt
-+
-+      - name: Report converted count
-+        shell: bash
-+        run: |
-+          if [ -s jobs/_numbers.txt ]; then
-+            echo "Converted $(wc -l < jobs/_numbers.txt) issue(s):"
-+            cat jobs/_numbers.txt
-+          else
-+            echo "Converted 0 issues."
-+          fi
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt-get update && sudo apt-get install -y jq curl
+
+      - name: Fetch open issues with label=job and convert
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -e
+          mkdir -p jobs
+          : > jobs/_numbers.txt
+
+          page=1
+          while :; do
+            RESP=$(curl -sfSL \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/$GH_REPO/issues?state=open&labels=job&per_page=100&page=$page")
+            count=$(echo "$RESP" | jq 'length')
+            [ "$count" -eq 0 ] && break
+
+            echo "$RESP" | jq -c '.[]' | while read -r issue; do
+              NUM=$(echo "$issue" | jq -r '.number')
+              BODY_RAW=$(echo "$issue" | jq -r '.body // ""')
+
+              # Normalize CRLF + trim
+             BODY=$(printf "%s" "$BODY_RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+              # Strip ``` fences if present
+              if printf "%s" "$BODY" | head -1 | grep -qE '^```'; then
+                BODY=$(printf "%s" "$BODY" | sed -E '1s/^```(json|JSON)?[[:space:]]*//; $s/[[:space:]]*```$//')
+              fi
+
+              # If body is a JSON string (double-encoded), unquote once
+              if printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
+                TYPE=$(printf "%s" "$BODY" | jq -r 'type' || echo "")
+                if [ "$TYPE" = "string" ]; then
+                  INNER=$(printf "%s" "$BODY" | jq -r . 2>/dev/null || echo "")
+                  if printf "%s" "$INNER" | jq -e . >/dev/null 2>&1; then
+                    BODY="$INNER"
+                  fi
+                fi
+              fi
+
+              # Final validation; if invalid -> skip, don't fail
+              if ! printf "%s" "$BODY" | jq -e . >/dev/null 2>&1; then
+               echo "⚠️  Skipping Issue #$NUM (not valid JSON). First 120 chars:"
+                echo "    $(printf "%s" "$BODY_RAW" | tr -d '\r' | head -c 120)"
+                continue
+              fi
+
+              SLUG=$(printf "%s" "$BODY" | jq -r '.slug // empty')
+              if [ -z "$SLUG" ]; then
+                echo "⚠️  Skipping Issue #$NUM (no 'slug' field)."
+                continue
+              fi
+
+              printf "%s" "$BODY" | jq . > "jobs/${SLUG}.json"
+              echo "$NUM" >> jobs/_numbers.txt
+              echo "✅ Converted Issue #$NUM -> jobs/${SLUG}.json"
+            done
+
+            page=$((page+1))
+          done
+
+          # Build index
+          shopt -s nullglob
+          FILES=()
+          for f in jobs/*.json; do
+            if [ "$(basename "$f")" != "jobs.json" ]; then
+              FILES+=("$f")
+            fi
+          done
+
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "[]" > jobs/jobs.json
+          else
+            jq -s '[ .[] | del(.descriptionHtml) ]' "${FILES[@]}" > jobs/jobs.json
+          fi
+
+      - name: Commit backfilled jobs
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs/*.json jobs/jobs.json
+          git commit -m "Backfill: convert existing job Issues to JSON" || echo "No changes"
+          git push
+
+      - name: Close backfilled Issues
+        if: always()   # run even if previous step was a no-op
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -e
+          if [ ! -f jobs/_numbers.txt ] || [ ! -s jobs/_numbers.txt ]; then
+            echo "No converted issues to close (jobs/_numbers.txt missing or empty)."
+            exit 0
+          fi
+
+          echo "Closing the following issues:"
+          cat jobs/_numbers.txt
+
+          while read -r num; do
+            echo -n "Closing #$num ... "
+            curl -sfSL -X PATCH \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -d '{"state":"closed"}' \
+             "https://api.github.com/repos/$GH_REPO/issues/$num" > /dev/null
+            echo "done"
+          done < jobs/_numbers.txt
+
+      - name: Report converted count
+        shell: bash
+        run: |
+          if [ -s jobs/_numbers.txt ]; then
+            echo "Converted $(wc -l < jobs/_numbers.txt) issue(s):"
+            cat jobs/_numbers.txt
+          else
+           echo "Converted 0 issues."
+          fi
