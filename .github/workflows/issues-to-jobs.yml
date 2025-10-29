@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          RAW="${{ github.event.issue.body }}"
+          RAW=$(printf "%s" "${{ github.event.issue.body }}" | sed 's/`/\\`/g')
 
           # Clean and strip formatting
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
