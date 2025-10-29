@@ -102,6 +102,23 @@
     "isPaid": false
   },
   {
+    "slug": "advertising-intern-after-hours-b60c02",
+    "title": "Advertising Intern",
+    "company": "After Hours",
+    "companySlug": "afterhours",
+    "sector": [
+      "Graphic Art"
+    ],
+    "location": "Remote (Bermuda-based)",
+    "startDate": "2026-06-01",
+    "endDate": "2025-06-14",
+    "applyBy": "2026-02-01",
+    "createdDate": "2025-10-29T00:47:34.3084777Z",
+    "applyLink": "",
+    "logo": "",
+    "isPaid": false
+  },
+  {
     "slug": "marketing-intern-skillcraft",
     "title": "Marketing Intern",
     "company": "SkillCraft",
