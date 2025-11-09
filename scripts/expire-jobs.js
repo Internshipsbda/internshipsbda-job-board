@@ -5,19 +5,23 @@ const path = require('path');
 
 const JOBS_DIR = path.join(__dirname, '../jobs');
 const ARCHIVE_DIR = path.join(__dirname, '../archive');
-const EXPIRY_DAYS = 30; // Jobs older than 30 days will be archived
 
 // Ensure archive directory exists
 if (!fs.existsSync(ARCHIVE_DIR)) {
   fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
 }
 
-function isExpired(createdDate) {
-  const created = new Date(createdDate);
+function isExpired(applicationDeadline) {
+  if (!applicationDeadline) {
+    // If no deadline specified, don't expire
+    return false;
+  }
+  
+  const deadline = new Date(applicationDeadline);
   const now = new Date();
-  const diffTime = Math.abs(now - created);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays > EXPIRY_DAYS;
+  
+  // Check if deadline has passed
+  return now > deadline;
 }
 
 function expireJobs() {
@@ -33,15 +37,20 @@ function expireJobs() {
     try {
       const job = JSON.parse(content);
       
-      if (job.createdDate && isExpired(job.createdDate)) {
+      if (job.applicationDeadline && isExpired(job.applicationDeadline)) {
         // Move to archive
         const archivePath = path.join(ARCHIVE_DIR, file);
         fs.renameSync(filePath, archivePath);
-        console.log(`✅ Archived: ${file}`);
+        console.log(`✅ Archived: ${file} (deadline: ${job.applicationDeadline})`);
         expiredCount++;
       } else {
         // Keep in active jobs
         activeJobs.push(job);
+        if (job.applicationDeadline) {
+          console.log(`📌 Active: ${file} (deadline: ${job.applicationDeadline})`);
+        } else {
+          console.log(`📌 Active: ${file} (no deadline set)`);
+        }
       }
     } catch (err) {
       console.error(`❌ Error processing ${file}:`, err.message);
