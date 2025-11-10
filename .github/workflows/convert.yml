@@ -1,32 +1,30 @@
 name: Convert job Issues to JSON
-
 on:
   issues:
     types: [labeled]    # triggered when labels are added
   workflow_dispatch:     # allows manual re-run
-
 permissions:
   contents: write
   issues: write
-
 jobs:
   convert:
     if: contains(join(fromJson(toJson(github.event.issue.labels)).*.name, ','), 'job')
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
-
       - name: Normalize and validate body (accepts plain, fenced, or double-encoded JSON)
         id: norm
         shell: bash
         run: |
           set -e
-          RAW=$(printf "%s" "${{ github.event.issue.body }}" | sed 's/\\/\\\\/g')
+          # Use heredoc to safely capture the issue body
+          RAW=$(cat <<'EOF'
+          ${{ github.event.issue.body }}
+          EOF
+          )
           # Clean and strip formatting
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
           if printf "%s\n" "$CLEAN" | grep -qE '^```'; then
@@ -53,19 +51,16 @@ jobs:
             echo "❌ Missing 'slug' field in JSON."; exit 1
           fi
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
-
       - name: Save jobs/{slug}.json (overwrite if exists)
         run: |
           cp jobs/_incoming.json "jobs/${{ steps.norm.outputs.slug }}.json"
           rm jobs/_incoming.json
-
       - name: Rebuild jobs.json index
         run: |
           set -e
           shopt -s nullglob
           FILES=(jobs/*.json)
           echo "Found ${#FILES[@]} job files."
-
           if [ ${#FILES[@]} -eq 0 ]; then
             echo "[]" > jobs/jobs.json
           else
@@ -76,7 +71,6 @@ jobs:
               exit 1
             }
           fi
-
       - name: Commit JSON + index
         run: |
           git config user.name  "github-actions[bot]"
@@ -84,7 +78,6 @@ jobs:
           git add jobs/*.json
           git commit -m "Auto update job files + index" || echo "No changes"
           git push
-
       - name: Comment and close Issue
         uses: peter-evans/close-issue@v3
         with:
