@@ -6,124 +6,123 @@
   <title>Internship Listing | Internship Insights Co.</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Raleway:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    <style>
-  :root {
-    --brand: #FF6D33;
-    --ink: #1a1a1a;
-    --muted: #4a4a4a;
-    --bg: #FFF4E6;  /* Light peachy orange background */
-  }
+    :root {
+      --brand: #FF6D33;
+      --ink: #1a1a1a;
+      --muted: #4a4a4a;
+      --bg: #FFF4E6;
+    }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    background-color: var(--bg);
-    color: var(--ink);
-    padding: 2rem;
-    min-height: 100vh;
-  }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--ink);
+      padding: 2rem;
+      min-height: 100vh;
+    }
 
-  #job-card {
-    max-width: 800px;
-    margin: auto;
-    padding: 2rem 0;
-  }
+    #job-card {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem 0;
+    }
 
-  .header {
-    font-family: 'Raleway', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-    color: var(--ink);
-  }
+    .header {
+      font-family: 'Raleway', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: var(--ink);
+    }
 
-  .company {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--ink);
-  }
+    .company {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
 
-  .location {
-    display: flex;
-    align-items: center;
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    color: var(--muted);
-  }
+    .location {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      color: var(--muted);
+    }
 
-  .location svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
-    stroke: var(--muted);
-  }
+    .location svg {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      stroke: var(--muted);
+    }
 
-  .section-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--ink);
-  }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
 
-  ul {
-    padding-left: 1.2rem;
-    margin-bottom: 1rem;
-    color: var(--ink);
-  }
+    ul {
+      padding-left: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
 
-  .description {
-    margin-top: 1rem;
-    line-height: 1.6;
-    color: var(--ink);
-  }
+    .description {
+      margin-top: 1rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
 
-  .apply-button {
-    display: inline-block;
-    margin-top: 2rem;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--brand);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: 0.3s ease;
-  }
+    .apply-button {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
 
-  .apply-button:hover {
-    background-color: #e55a1f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 109, 51, 0.3);
-  }
+    .apply-button:hover {
+      background-color: #e55a1f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(255, 109, 51, 0.3);
+    }
 
-  .notfound {
-    max-width: 600px;
-    margin: 4rem auto;
-    color: var(--muted);
-    text-align: center;
-    padding: 2rem;
-  }
+    .notfound {
+      max-width: 600px;
+      margin: 4rem auto;
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem;
+    }
 
-  .back {
-    display: block;
-    margin: 0 auto 1.5rem;
-    text-align: center;
-    font-weight: 600;
-    color: var(--brand);
-    text-decoration: none;
-  }
+    .back {
+      display: block;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+    }
 
-  .back:hover {
-    text-decoration: underline;
-  }
-</style>
-    </head>
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
 <body>
   <a class="back" href="job-board.html">← Back to all internships</a>
   
-  <div class="card" id="job-card">
+  <div id="job-card">
     <p>Loading internship details...</p>
   </div>
 
@@ -141,62 +140,51 @@
       });
     }
 
+    function formatDescription(desc) {
+      return desc.replace(/\\n/g, '<br>');
+    }
+
     function renderJob(job) {
       const el = document.getElementById('job-card');
       const applyLink = job.applyLink || "#";
-      const description = job.descriptionHtml || "<p>No description provided.</p>";
+      const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
       const location = job.location || "Bermuda";
       const isPaid = job.isPaid ? "Paid" : "Unpaid";
       const requirements = job.requirements || [];
       const duration = job.duration || "10 weeks";
       const type = job.type || "Internship";
 
-      function formatDescription(desc) {
-  // Replace \n with <br> tags
-  return desc.replace(/\\n/g, '<br>');
-}
+      el.innerHTML = `
+        <div class="header">${job.title}</div>
+        <div class="company">${job.company}</div>
 
-function renderJob(job) {
-  const el = document.getElementById('job-card');
-  const applyLink = job.applyLink || "#";
-  const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
-  const location = job.location || "Bermuda";
-  const isPaid = job.isPaid ? "Paid" : "Unpaid";
-  const requirements = job.requirements || [];
-  const duration = job.duration || "10 weeks";
-  const type = job.type || "Internship";
+        <div class="location">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
+          </svg>
+          ${location}
+        </div>
 
-  el.innerHTML = `
-    <div class="header">${job.title}</div>
-    <div class="company">${job.company}</div>
+        <div class="section-title">Details</div>
+        <ul>
+          <li><strong>Type:</strong> ${type}</li>
+          <li><strong>Duration:</strong> ${duration}</li>
+          <li><strong>Start:</strong> ${formatDate(job.startDate)}</li>
+          <li><strong>End:</strong> ${formatDate(job.endDate)}</li>
+          <li><strong>Apply by:</strong> ${formatDate(job.applyBy)}</li>
+          <li><strong>Compensation:</strong> ${isPaid}</li>
+        </ul>
 
-    <div class="location">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
-      </svg>
-      ${location}
-    </div>
+        <div class="section-title">Requirements</div>
+        ${requirements.length > 0 ? `<ul>${requirements.map(r => `<li>${r}</li>`).join('')}</ul>` : `<p>No requirements listed.</p>`}
 
-    <div class="section-title">Details</div>
-    <ul>
-      <li><strong>Type:</strong> ${type}</li>
-      <li><strong>Duration:</strong> ${duration}</li>
-      <li><strong>Start:</strong> ${formatDate(job.startDate)}</li>
-      <li><strong>End:</strong> ${formatDate(job.endDate)}</li>
-      <li><strong>Apply by:</strong> ${formatDate(job.applyBy)}</li>
-      <li><strong>Compensation:</strong> ${isPaid}</li>
-    </ul>
+        <div class="section-title">Description</div>
+        <div class="description">${description}</div>
 
-    <div class="section-title">Requirements</div>
-    ${requirements.length > 0 ? `<ul>${requirements.map(r => `<li>${r}</li>`).join('')}</ul>` : `<p>No requirements listed.</p>`}
-
-    <div class="section-title">Description</div>
-    <div class="description">${description}</div>
-
-    ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
-  `;
-}
+        ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
+      `;
+    }
 
     function notFound() {
       document.getElementById('job-card').innerHTML = `<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>`;
