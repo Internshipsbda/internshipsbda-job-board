@@ -6,109 +6,120 @@
   <title>Internship Listing | Internship Insights Co.</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Raleway:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --brand: #FF6D33;
-      --ink: #0F1E35;
-      --muted: #6b7280;
-      --bg: #FCF8F4;
-    }
+    <style>
+  :root {
+    --brand: #FF6D33;
+    --ink: #1a1a1a;
+    --muted: #4a4a4a;
+    --bg: #FFF4E6;  /* Light peachy orange background */
+  }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background-color: var(--bg);
-      color: var(--ink);
-      padding: 2rem;
-    }
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--ink);
+    padding: 2rem;
+    min-height: 100vh;
+  }
 
-    .card {
-      background-color: var(--brand);
-      color: white;
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
+  #job-card {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem 0;
+  }
 
-    .header {
-      font-family: 'Raleway', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
+  .header {
+    font-family: 'Raleway', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--ink);
+  }
 
-    .company {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
+  .company {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
 
-    .location {
-      display: flex;
-      align-items: center;
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
+  .location {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+  }
 
-    .location svg {
-      width: 18px;
-      height: 18px;
-      margin-right: 6px;
-      stroke: white;
-    }
+  .location svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    stroke: var(--muted);
+  }
 
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
 
-    ul {
-      padding-left: 1.2rem;
-      margin-bottom: 1rem;
-    }
+  ul {
+    padding-left: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
 
-    .description {
-      margin-top: 1rem;
-      line-height: 1.5;
-    }
+  .description {
+    margin-top: 1rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
 
-    .apply-button {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
-      background-color: black;
-      color: var(--brand);
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
+  .apply-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s ease;
+  }
 
-    .apply-button:hover {
-      background-color: #222;
-    }
+  .apply-button:hover {
+    background-color: #e55a1f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 109, 51, 0.3);
+  }
 
-    .notfound {
-      max-width: 600px;
-      margin: 4rem auto;
-      color: var(--muted);
-      text-align: center;
-    }
+  .notfound {
+    max-width: 600px;
+    margin: 4rem auto;
+    color: var(--muted);
+    text-align: center;
+    padding: 2rem;
+  }
 
-    .back {
-      display: block;
-      margin: 0 auto 1.5rem;
-      text-align: center;
-      font-weight: 600;
-      color: var(--brand);
-      text-decoration: none;
-    }
-  </style>
-</head>
+  .back {
+    display: block;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--brand);
+    text-decoration: none;
+  }
+
+  .back:hover {
+    text-decoration: underline;
+  }
+</style>
+    </head>
 <body>
   <a class="back" href="job-board.html">← Back to all internships</a>
   
