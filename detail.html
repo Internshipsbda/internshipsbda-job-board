@@ -10,7 +10,7 @@
       --brand: #FF6D33;
       --ink: #1a1a1a;
       --muted: #4a4a4a;
-      --bg: #f2b375;
+      --bg: #FFF4E6;
     }
 
     body {
@@ -32,22 +32,25 @@
       font-family: 'Raleway', sans-serif;
       font-size: 2rem;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
       color: var(--ink);
+      text-align: center;
     }
 
     .company {
       font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: var(--ink);
+      text-align: center;
     }
 
     .location {
       display: flex;
       align-items: center;
+      justify-content: center;
       font-size: 0.95rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       color: var(--muted);
     }
 
@@ -58,24 +61,62 @@
       stroke: var(--muted);
     }
 
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .detail-item {
+      color: var(--muted);
+    }
+
+    .detail-item strong {
+      color: var(--ink);
+    }
+
     .section-title {
       font-size: 1.25rem;
       font-weight: 700;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
       color: var(--ink);
     }
 
     ul {
-      padding-left: 1.2rem;
+      padding-left: 0;
       margin-bottom: 1rem;
       color: var(--ink);
+      list-style: none;
+    }
+
+    ul li {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    ul li:before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      font-size: 1.2rem;
+      line-height: 1;
     }
 
     .description {
       margin-top: 1rem;
       line-height: 1.6;
       color: var(--ink);
+    }
+
+    .description strong {
+      display: block;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
     }
 
     .apply-button {
@@ -141,7 +182,11 @@
     }
 
     function formatDescription(desc) {
-      return desc.replace(/\\n/g, '<br>');
+      // Replace \n with <br> and make section headers bold
+      return desc
+        .replace(/\\n\\n/g, '<br><br>')
+        .replace(/\\n/g, '<br>')
+        .replace(/(Duties and Responsibilities|Qualifications|Alignment with Core Values)/g, '<strong>$1</strong>');
     }
 
     function renderJob(job) {
@@ -150,8 +195,7 @@
       const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
       const location = job.location || "Bermuda";
       const isPaid = job.isPaid ? "Paid" : "Unpaid";
-      const requirements = job.requirements || [];
-      const duration = job.duration || "10 weeks";
+      const workStyle = job.workStyle || "Not specified";
       const type = job.type || "Internship";
 
       el.innerHTML = `
@@ -166,18 +210,14 @@
           ${location}
         </div>
 
-        <div class="section-title">Details</div>
-        <ul>
-          <li><strong>Type:</strong> ${type}</li>
-          <li><strong>Duration:</strong> ${duration}</li>
-          <li><strong>Start:</strong> ${formatDate(job.startDate)}</li>
-          <li><strong>End:</strong> ${formatDate(job.endDate)}</li>
-          <li><strong>Apply by:</strong> ${formatDate(job.applyBy)}</li>
-          <li><strong>Compensation:</strong> ${isPaid}</li>
-        </ul>
-
-        <div class="section-title">Requirements</div>
-        ${requirements.length > 0 ? `<ul>${requirements.map(r => `<li>${r}</li>`).join('')}</ul>` : `<p>No requirements listed.</p>`}
+        <div class="details">
+          <span class="detail-item"><strong>Type:</strong> ${type}</span>
+          <span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>
+          <span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>
+          <span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>
+          <span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>
+          <span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>
+        </div>
 
         <div class="section-title">Description</div>
         <div class="description">${description}</div>
