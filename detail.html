@@ -229,6 +229,20 @@
 
     ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
   `;
+     el.innerHTML = `
+  <div class="industry-tag">${job.sector?.[0] || "Other"}</div>
+  <div class="company">${job.title}</div>
+
+  <div class="location">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
+    </svg>
+    ${location}
+  </div>
+  
+  ...
+`;
 }
 
     function notFound() {
