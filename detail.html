@@ -188,48 +188,48 @@
         .replace(/(Duties and Responsibilities|Qualifications|Alignment with Core Values)/g, '<strong>$1</strong>');
     }
 
-    function renderJob(job) {
-      const el = document.getElementById('job-card');
-      const applyLink = job.applyLink || "#";
-      const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
-      const location = job.location || "Bermuda";
-      const isPaid = job.isPaid ? "Paid" : "Unpaid";
-      const workStyle = job.workStyle;
-      const duration = job.duration;
-      const type = job.type || "Internship";
+   function renderJob(job) {
+  const el = document.getElementById('job-card');
+  const applyLink = job.applyLink || "#";
+  const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
+  const location = job.location || "Bermuda";
+  const isPaid = job.isPaid ? "Paid" : "Unpaid";
+  const workStyle = job.workStyle;
+  const duration = job.duration;
+  const fullTimePathway = job.fullTimePathway;
 
-      // Build details array, only including items that exist
-      let details = [];
-      details.push(`<span class="detail-item"><strong>Type:</strong> ${type}</span>`);
-      if (workStyle) details.push(`<span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>`);
-      if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
-      if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
-      details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
-      if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
-      if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
+  // Build details array, only including items that exist
+  let details = [];
+  if (workStyle) details.push(`<span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>`);
+  if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
+  if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
+  details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
+  if (fullTimePathway) details.push(`<span class="detail-item"><strong>Full-Time Pathway:</strong> ${fullTimePathway}</span>`);
+  if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
+  if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
 
-      el.innerHTML = `
-        <div class="header">${job.title}</div>
-        <div class="company">${job.company}</div>
+  el.innerHTML = `
+    <div class="header">${job.title}</div>
+    <div class="company">${job.company}</div>
 
-        <div class="location">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
-          </svg>
-          ${location}
-        </div>
+    <div class="location">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
+      </svg>
+      ${location}
+    </div>
 
-        <div class="details">
-          ${details.join('\n          ')}
-        </div>
+    <div class="details">
+      ${details.join('\n          ')}
+    </div>
 
-        <div class="section-title">Description</div>
-        <div class="description">${description}</div>
+    <div class="section-title">Description</div>
+    <div class="description">${description}</div>
 
-        ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
-      `;
-    }
+    ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
+  `;
+}
 
     function notFound() {
       document.getElementById('job-card').innerHTML = `<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>`;
