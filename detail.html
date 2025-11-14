@@ -196,7 +196,7 @@
   const isPaid = job.isPaid ? "Paid" : "Unpaid";
   const workStyle = job.workStyle;
   const duration = job.duration;
-  const fullTimePathway = job.fullTimePathway ? "Yes" : "No";
+  const fullTimePathway = job.fullTimePathway || "Not specified";
 
   // Build details array, only including items that exist
   let details = [];
@@ -204,7 +204,7 @@
   if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
   if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
   details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
-  if (fullTimePathway) details.push(`<span class="detail-item"><strong>Full-Time Pathway:</strong> ${fullTimePathway}</span>`);
+  details.push(`<span class="detail-item"><strong>Full-Time Pathway:</strong> ${fullTimePathway}</span>`);
   if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
   if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
 
