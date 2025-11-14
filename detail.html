@@ -182,7 +182,6 @@
     }
 
     function formatDescription(desc) {
-      // Replace \n with <br> and make section headers bold
       return desc
         .replace(/\\n\\n/g, '<br><br>')
         .replace(/\\n/g, '<br>')
@@ -195,8 +194,19 @@
       const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
       const location = job.location || "Bermuda";
       const isPaid = job.isPaid ? "Paid" : "Unpaid";
-      const workStyle = job.workStyle || "Not specified";
+      const workStyle = job.workStyle;
+      const duration = job.duration;
       const type = job.type || "Internship";
+
+      // Build details array, only including items that exist
+      let details = [];
+      details.push(`<span class="detail-item"><strong>Type:</strong> ${type}</span>`);
+      if (workStyle) details.push(`<span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>`);
+      if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
+      if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
+      details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
+      if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
+      if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
 
       el.innerHTML = `
         <div class="header">${job.title}</div>
@@ -211,12 +221,7 @@
         </div>
 
         <div class="details">
-          <span class="detail-item"><strong>Type:</strong> ${type}</span>
-          <span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>
-          <span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>
-          <span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>
-          <span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>
-          <span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>
+          ${details.join('\n          ')}
         </div>
 
         <div class="section-title">Description</div>
