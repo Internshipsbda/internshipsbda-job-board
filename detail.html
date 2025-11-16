@@ -9,7 +9,7 @@
     :root {
       --brand: #FF6D33;
       --ink: #1a1a1a;
-      --muted: #4a4a4a;
+      --muted: #4a4a1a;
       --bg: #FFF4E6;
     }
 
@@ -162,7 +162,7 @@
 </head>
 <body>
   <a class="back" href="job-board.html">← Back to all internships</a>
-  
+
   <div id="job-card">
     <p>Loading internship details...</p>
   </div>
@@ -181,57 +181,66 @@
       });
     }
 
+    // NEW RULES:
+    // 1) Auto-bold ANY heading ending in a colon
+    // 2) Remove unwanted sections EXCEPT "Description"
     function formatDescription(desc) {
+
+      // Remove specific headings fully
+      desc = desc.replace(/(Duties and Responsibilities|Qualifications|Alignment with Core Values)[\\s\\S]*?(?=\\n[A-Z][^:]+:|$)/gi, "");
+
+      // Auto-bold ANY heading that ends with a colon (universal catch-all)
+      desc = desc.replace(/^(.*?):$/gm, "<strong>$1:</strong>");
+
+      // Standard line breaks
       return desc
-        .replace(/\\n\\n/g, '<br><br>')
-        .replace(/\\n/g, '<br>')
-        .replace(/(Duties and Responsibilities|Qualifications|Alignment with Core Values)/g, '<strong>$1</strong>');
+        .replace(/\\n\\n/g, "<br><br>")
+        .replace(/\\n/g, "<br>");
     }
 
-   function renderJob(job) {
-  const el = document.getElementById('job-card');
-  const applyLink = job.applyLink || "#";
-  const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
-  const location = job.location || "Bermuda";
-  const isPaid = job.isPaid ? "Paid" : "Unpaid";
-  const workStyle = job.workStyle;
-  const duration = job.duration;
-  const fullTimePathway = job.fullTimePathway || "Not specified";
-  const industry = job.sector && job.sector.length > 0 ? job.sector[0] : null;
+    function renderJob(job) {
+      const el = document.getElementById('job-card');
+      const applyLink = job.applyLink || "#";
+      const description = job.descriptionHtml ? formatDescription(job.descriptionHtml) : "<p>No description provided.</p>";
+      const location = job.location || "Bermuda";
+      const isPaid = job.isPaid ? "Paid" : "Unpaid";
+      const workStyle = job.workStyle;
+      const duration = job.duration;
+      const fullTimePathway = job.fullTimePathway || "Not specified";
+      const industry = job.sector && job.sector.length > 0 ? job.sector[0] : null;
 
-  // Build details array
-  let details = [];
-  if (workStyle) details.push(`<span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>`);
-  if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
-  if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
-  details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
-  details.push(`<span class="detail-item"><strong>Full-Time Pathway:</strong> ${fullTimePathway}</span>`);
-  if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
-  if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
+      let details = [];
+      if (workStyle) details.push(`<span class="detail-item"><strong>Work Style:</strong> ${workStyle}</span>`);
+      if (duration) details.push(`<span class="detail-item"><strong>Duration:</strong> ${duration}</span>`);
+      if (job.applyBy) details.push(`<span class="detail-item"><strong>Apply by:</strong> ${formatDate(job.applyBy)}</span>`);
+      details.push(`<span class="detail-item"><strong>Compensation:</strong> ${isPaid}</span>`);
+      details.push(`<span class="detail-item"><strong>Full-Time Pathway:</strong> ${fullTimePathway}</span>`);
+      if (job.startDate) details.push(`<span class="detail-item"><strong>Start:</strong> ${formatDate(job.startDate)}</span>`);
+      if (job.endDate) details.push(`<span class="detail-item"><strong>End:</strong> ${formatDate(job.endDate)}</span>`);
 
-  el.innerHTML = `
-    ${industry ? `<div style="text-align:center; margin-bottom: 0.5rem;"><span style="display:inline-block; background-color:#e5f0ff; color:#1a4fb4; font-size:0.75rem; font-weight:600; text-transform:uppercase; padding:4px 10px; border-radius:5px;">${industry}</span></div>` : ''}
-    <div class="header">${job.title}</div>
-    <div class="company">${job.company}</div>
+      el.innerHTML = `
+        ${industry ? `<div style="text-align:center; margin-bottom: 0.5rem;"><span style="display:inline-block; background-color:#e5f0ff; color:#1a4fb4; font-size:0.75rem; font-weight:600; text-transform:uppercase; padding:4px 10px; border-radius:5px;">${industry}</span></div>` : ''}
+        <div class="header">${job.title}</div>
+        <div class="company">${job.company}</div>
 
-    <div class="location">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
-      </svg>
-      ${location}
-    </div>
+        <div class="location">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.341A8 8 0 104.572 15.34 11.954 11.954 0 0112 21a11.954 11.954 0 017.428-5.659z"/>
+          </svg>
+          ${location}
+        </div>
 
-    <div class="details">
-      ${details.join('\n          ')}
-    </div>
+        <div class="details">
+          ${details.join('\n          ')}
+        </div>
 
-    <div class="section-title">Description</div>
-    <div class="description">${description}</div>
+        <div class="section-title">Description</div>
+        <div class="description">${description}</div>
 
-    ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
-  `;
-}
+        ${job.applyLink ? `<a class="apply-button" href="${applyLink}" target="_blank">Apply Now</a>` : ''}
+      `;
+    }
 
     function notFound() {
       document.getElementById('job-card').innerHTML = `<p class="notfound">Job not found. The link may be incorrect or the posting expired.</p>`;
