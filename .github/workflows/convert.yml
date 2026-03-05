@@ -26,6 +26,11 @@ jobs:
           )
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
+          # Sanitize: convert literal tabs to spaces + strip other illegal control chars
+          CLEAN=$(printf "%s" "$CLEAN" \
+            | sed $'s/\t/  /g' \
+            | perl -pe 's/[\x00-\x08\x0B\x0C\x0E-\x1F]//g')
+
           # Extract first fenced JSON block anywhere in the body
           BLOCK=$(printf "%s" "$CLEAN" | awk '
             BEGIN{inblk=0}
@@ -38,6 +43,11 @@ jobs:
           if [ -n "${BLOCK//[[:space:]]/}" ]; then
             CLEAN="$BLOCK"
           fi
+
+          # Re-sanitize after extraction (in case tabs/control chars were inside the fenced block)
+          CLEAN=$(printf "%s" "$CLEAN" \
+            | sed $'s/\t/  /g' \
+            | perl -pe 's/[\x00-\x08\x0B\x0C\x0E-\x1F]//g')
 
           if printf "%s" "$CLEAN" | jq -e . > /dev/null 2>&1; then
             TYPE=$(printf "%s" "$CLEAN" | jq -r 'type')
