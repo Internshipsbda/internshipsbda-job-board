@@ -25,18 +25,20 @@ jobs:
           EOF
           )
           CLEAN=$(printf "%s" "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-         # Extract first fenced JSON block anywhere in the body
-BLOCK=$(printf "%s" "$CLEAN" | awk '
-  BEGIN{inblk=0}
-  /^```(json|JSON)?[[:space:]]*$/ {inblk=1; next}
-  /^```[[:space:]]*$/ {if(inblk){exit}}
-  {if(inblk) print}
-')
 
-# If a fenced block was found, use it
-if [ -n "${BLOCK//[[:space:]]/}" ]; then
-  CLEAN="$BLOCK"
-fi
+          # Extract first fenced JSON block anywhere in the body
+          BLOCK=$(printf "%s" "$CLEAN" | awk '
+            BEGIN{inblk=0}
+            /^```(json|JSON)?[[:space:]]*$/ {inblk=1; next}
+            /^```[[:space:]]*$/ {if(inblk){exit}}
+            {if(inblk) print}
+          ')
+
+          # If a fenced block was found, use it
+          if [ -n "${BLOCK//[[:space:]]/}" ]; then
+            CLEAN="$BLOCK"
+          fi
+
           if printf "%s" "$CLEAN" | jq -e . > /dev/null 2>&1; then
             TYPE=$(printf "%s" "$CLEAN" | jq -r 'type')
             if [ "$TYPE" = "string" ]; then
