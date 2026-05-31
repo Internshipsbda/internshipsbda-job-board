@@ -1,157 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Internship Job Board</title>
-  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internship Job Board — Bermuda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* built-in styling so you don’t touch separate CSS files */
-    :root { --brand:#ff914d; --ink:#111; --muted:#6b7280; --card:#fff; --bg: transparent; }
-    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background: transparent; }
-    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
-   
-    .controls { display:flex; gap:8px; flex-wrap: wrap; margin-bottom:16px; }
-    .controls input, .controls select { padding:10px 12px; border:1px solid #d1d5db; border-radius:8px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
-    
-    .card { background:var(--card); border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.04); }
-    .img { height:220px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .img img { width:100%; height:100%; object-fit:contain; }
-    .pad { padding: 1rem; }
-    .kicker { text-transform: lowercase; letter-spacing: .06em; color: var(--muted); font-size:12px; margin-bottom:6px; }
-    .title { font-size:20px; font-weight:700; line-height:1.2; margin: 4px 0 8px; }
-    .meta { color:var(--muted); font-size:14px; margin-bottom:8px; }
-    .link { display:inline-block; font-weight:700; color:var(--brand); text-decoration:none; }
-      .link:hover { text-decoration: underline; }
+    :root {
+      --orange:#FBA856; --orange2:#fcc070; --orange3:#fde4b8;
+      --blue:#5499BB;   --blue2:#6badd1;   --blue3:#d6eaf5;
+      --black:#111111;  --black2:#1e1e1e;
+      --white:#ffffff;  --offwhite:#f8f9fa;
+      --slate:#D3DCE1;  --slate2:#e8edf0;
+      --text:#2d3748;   --text2:#4a5568;   --muted:#718096;
+      --border:rgba(0,0,0,0.09);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--offwhite); color:var(--text); }
 
-    .empty { color:var(--muted); margin-top:8px; }
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      background:var(--white);
+      border-bottom:1px solid var(--border);
+      padding:1.25rem 1.5rem;
+    }
+    .search-row {
+      display:grid;
+      grid-template-columns:1fr auto auto auto auto;
+      gap:.6rem;
+      align-items:center;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .search-input-wrap { position:relative; }
+    .search-icon {
+      position:absolute; left:.85rem; top:50%;
+      transform:translateY(-50%);
+      color:var(--muted); font-size:.9rem; pointer-events:none;
+    }
+    .s-input {
+      width:100%;
+      background:var(--slate2);
+      border:1.5px solid var(--border);
+      border-radius:8px;
+      padding:.68rem 1rem .68rem 2.4rem;
+      font-family:'Inter',sans-serif;
+      font-size:.88rem; color:var(--text);
+      outline:none; transition:border-color .2s;
+    }
+    .s-input:focus { border-color:var(--blue); background:var(--white); }
+    .s-select {
+      background:var(--slate2);
+      border:1.5px solid var(--border);
+      border-radius:8px;
+      padding:.68rem 2rem .68rem .9rem;
+      font-family:'Inter',sans-serif;
+      font-size:.85rem; color:var(--text);
+      outline:none; cursor:pointer;
+      appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right .7rem center;
+      white-space:nowrap;
+    }
+    .s-select:focus { border-color:var(--blue); }
+    .btn-search {
+      background:var(--blue); color:#fff;
+      border:none; border-radius:8px;
+      padding:.68rem 1.4rem;
+      font-family:'Inter',sans-serif;
+      font-size:.85rem; font-weight:600;
+      cursor:pointer; transition:background .2s;
+      white-space:nowrap;
+    }
+    .btn-search:hover { background:var(--blue2); }
+
+    /* ── TABS ── */
+    .tabs-wrap {
+      background:var(--white);
+      border-bottom:1px solid var(--border);
+      padding:0 1.5rem;
+    }
+    .tabs {
+      max-width:1100px; margin:0 auto;
+      display:flex; gap:0;
+    }
+    .tab {
+      padding:.85rem 1.5rem;
+      font-size:.85rem; font-weight:500;
+      color:var(--muted); cursor:pointer;
+      border-bottom:2px solid transparent;
+      transition:all .15s; background:none; border-top:none;
+      border-left:none; border-right:none;
+    }
+    .tab:hover { color:var(--text); }
+    .tab.active { color:var(--blue); border-bottom-color:var(--blue); font-weight:600; }
+    .tab-badge {
+      background:var(--blue3); color:var(--blue);
+      border-radius:20px; padding:.1rem .5rem;
+      font-size:.7rem; font-weight:700;
+      margin-left:.4rem;
+    }
+    .tab.archive-tab.active { color:var(--muted); border-bottom-color:var(--muted); }
+    .tab.archive-tab .tab-badge { background:var(--slate2); color:var(--muted); }
+
+    /* ── ARCHIVE BANNER ── */
+    .archive-banner {
+      display:none;
+      background:var(--slate2);
+      border-bottom:1px solid var(--border);
+      padding:.75rem 1.5rem;
+      text-align:center;
+    }
+    .archive-banner.show { display:block; }
+    .archive-banner p {
+      font-size:.83rem; color:var(--muted);
+      max-width:700px; margin:0 auto;
+    }
+    .archive-banner strong { color:var(--text2); }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width:1100px; margin:0 auto;
+      padding:1.75rem 1.5rem;
+      display:grid;
+      grid-template-columns:1fr 300px;
+      gap:2rem;
+      align-items:start;
+    }
+
+    /* ── RESULTS META ── */
+    .results-meta {
+      display:flex; align-items:center;
+      justify-content:space-between;
+      margin-bottom:1.25rem;
+    }
+    .results-count { font-size:.85rem; color:var(--muted); }
+    .results-count strong { color:var(--text); }
+    .sort-select {
+      background:none; border:none;
+      font-family:'Inter',sans-serif;
+      font-size:.82rem; color:var(--text2);
+      cursor:pointer; outline:none;
+    }
+
+    /* ── JOB CARD ── */
+    .job-card {
+      background:var(--white);
+      border:1.5px solid var(--border);
+      border-radius:10px;
+      padding:1.5rem 1.75rem;
+      margin-bottom:.85rem;
+      transition:border-color .2s, box-shadow .2s;
+      cursor:pointer;
+      display:block; text-decoration:none; color:inherit;
+    }
+    .job-card:hover {
+      border-color:var(--blue);
+      box-shadow:0 4px 20px rgba(0,0,0,.07);
+    }
+    .job-card.archived { opacity:.82; }
+    .job-card.archived:hover { border-color:var(--muted); box-shadow:none; }
+    .jc-top {
+      display:flex; align-items:flex-start;
+      justify-content:space-between; gap:1rem; flex-wrap:wrap;
+    }
+    .jc-left { display:flex; gap:1rem; align-items:flex-start; }
+    .jc-logo {
+      width:48px; height:48px; border-radius:8px;
+      background:var(--blue3);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden; flex-shrink:0;
+    }
+    .jc-logo img { width:100%; height:100%; object-fit:contain; }
+    .jc-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.2rem; font-weight:700;
+      color:var(--black); margin-bottom:.2rem; line-height:1.2;
+    }
+    .jc-company { font-size:.82rem; color:var(--muted); margin-bottom:.55rem; }
+    .jc-tags { display:flex; gap:.4rem; flex-wrap:wrap; }
+    .tag {
+      border-radius:20px; padding:.18rem .62rem;
+      font-size:.67rem; font-weight:600; letter-spacing:.06em;
+    }
+    .tag-sector { background:var(--blue3); color:var(--blue); }
+    .tag-style  { background:var(--slate2); color:var(--text2); }
+    .tag-dur    { background:var(--slate2); color:var(--text2); }
+    .tag-vetted { background:var(--orange3); color:#8b4a00; }
+    .tag-paid   { background:rgba(39,184,126,.1); color:#1a7a50; }
+    .tag-expired{ background:var(--slate2); color:var(--muted); }
+    .jc-right { text-align:right; flex-shrink:0; }
+    .jc-pay {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.4rem; font-weight:700; color:var(--orange); line-height:1;
+    }
+    .jc-pay.unpaid { color:var(--muted); font-size:1rem; font-family:'Inter',sans-serif; }
+    .jc-date { font-size:.72rem; color:var(--muted); margin-top:.2rem; }
+    .jc-apply-btn {
+      margin-top:.7rem;
+      background:var(--blue); color:#fff;
+      border:none; border-radius:6px;
+      padding:.42rem 1rem;
+      font-family:'Inter',sans-serif;
+      font-size:.78rem; font-weight:600;
+      cursor:pointer; transition:background .2s;
+      display:inline-block; text-decoration:none;
+    }
+    .jc-apply-btn:hover { background:var(--blue2); }
+    .jc-apply-btn.expired-btn {
+      background:var(--slate2); color:var(--muted); cursor:default;
+    }
+    .jc-desc {
+      margin-top:1.1rem;
+      padding-top:1.1rem;
+      border-top:1px solid var(--border);
+      font-size:.85rem; color:var(--text2); line-height:1.65;
+      display:-webkit-box; -webkit-line-clamp:2;
+      -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .archived-label {
+      display:inline-flex; align-items:center; gap:.35rem;
+      font-size:.72rem; font-weight:600; color:var(--muted);
+      background:var(--slate2); border-radius:4px;
+      padding:.25rem .6rem; margin-bottom:.75rem;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align:center; padding:4rem 1rem;
+      color:var(--muted); font-size:.9rem; line-height:1.7;
+    }
+    .empty strong { display:block; font-size:1.1rem; margin-bottom:.5rem; color:var(--text2); }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display:flex; flex-direction:column; gap:1.1rem; position:sticky; top:1.5rem; }
+    .scard {
+      border-radius:10px; padding:1.75rem;
+    }
+    .scard-dark { background:var(--black); color:var(--white); }
+    .scard-light { background:var(--white); border:1.5px solid var(--border); }
+    .scard-blue  { background:var(--blue); }
+    .scard-slate { background:var(--slate2); border:1.5px solid var(--border); }
+    .sc-eyebrow {
+      font-size:.67rem; font-weight:600;
+      letter-spacing:.18em; text-transform:uppercase;
+      margin-bottom:.7rem;
+    }
+    .scard-dark .sc-eyebrow  { color:var(--orange); }
+    .scard-blue .sc-eyebrow  { color:rgba(255,255,255,.6); }
+    .scard-slate .sc-eyebrow { color:var(--muted); }
+    .sc-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.2rem; font-weight:700; line-height:1.2;
+      margin-bottom:.6rem;
+    }
+    .scard-dark .sc-title { color:var(--white); }
+    .scard-blue .sc-title { color:#fff; }
+    .sc-body { font-size:.83rem; line-height:1.65; margin-bottom:1.1rem; }
+    .scard-dark .sc-body { color:rgba(255,255,255,.6); }
+    .scard-blue .sc-body  { color:rgba(255,255,255,.75); }
+    .scard-slate .sc-body { color:var(--text2); }
+    .scard-light .sc-body { color:var(--text2); }
+    .sc-btn {
+      width:100%; text-align:center;
+      display:block; padding:.65rem 1rem;
+      border-radius:6px; font-family:'Inter',sans-serif;
+      font-size:.82rem; font-weight:600;
+      cursor:pointer; border:none; text-decoration:none;
+      transition:all .2s;
+    }
+    .sc-btn-orange { background:var(--orange); color:#fff; }
+    .sc-btn-orange:hover { background:var(--orange2); }
+    .sc-btn-outline-white { background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.3); }
+    .sc-btn-outline-white:hover { border-color:#fff; background:rgba(255,255,255,.1); }
+    .sc-btn-outline-dark { background:transparent; color:var(--black); border:1.5px solid rgba(0,0,0,.2); }
+    .sc-btn-outline-dark:hover { background:var(--black); color:#fff; }
+    .vetted-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      background:var(--orange3); color:#8b4a00;
+      border-radius:20px; padding:.25rem .75rem;
+      font-size:.68rem; font-weight:700;
+      margin-bottom:.75rem;
+    }
+
+    /* ── LOADING ── */
+    .loading {
+      text-align:center; padding:4rem; color:var(--muted);
+      font-size:.9rem;
+    }
+    .spinner {
+      width:32px; height:32px; border:3px solid var(--slate);
+      border-top-color:var(--blue); border-radius:50%;
+      animation:spin .7s linear infinite;
+      margin:0 auto 1rem;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:860px) {
+      .main { grid-template-columns:1fr; }
+      .sidebar { display:none; }
+      .search-row { grid-template-columns:1fr 1fr; }
+      .search-row .search-input-wrap { grid-column:1/-1; }
+      .search-row .btn-search { grid-column:1/-1; }
+    }
+    @media(max-width:560px) {
+      .search-row { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <div class="controls">
-      <input id="search" placeholder="Search Title or Company" />
-      
-      <select id="sector">
-        <option value="">All sectors</option>
+  <!-- Search bar -->
+  <div class="search-wrap">
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="s-input" id="search" type="text"
+          placeholder="Search roles, industries, or companies…">
+      </div>
+      <select class="s-select" id="sector">
+        <option value="">All Industries</option>
       </select>
-      
-      <select id="location">
-        <option value="">All locations</option></select>
-       
-      <select id="delivery">
-         <option value="">All delivery</option>
-         <option>Remote</option>
+      <select class="s-select" id="workStyle">
+        <option value="">Any Format</option>
+        <option>In-person (on-site)</option>
         <option>Hybrid</option>
-        <option>In-Person</option>
+        <option>Remote</option>
+        <option>Remote (Bermuda-based)</option>
       </select>
-     
-      <select id="paid">
-    <option value="">All</option>
-    <option value="paid">Paid</option>
-    <option value="unpaid">Unpaid</option>
-  </select>
-      <select id="sort">
-        <option value="newest">Newest</option>
-        <option value="deadline">Deadline soonest</option>
+      <select class="s-select" id="paid">
+        <option value="">Paid &amp; Unpaid</option>
+        <option value="paid">Paid only</option>
+        <option value="unpaid">Unpaid only</option>
       </select>
+      <button class="btn-search" onclick="applyFilters()">Search</button>
     </div>
-  
-
-    <div id="grid" class="grid"></div>
-    <div id="empty" class="empty" style="display:none;">No internships match your filters.</div>
   </div>
 
-  <script>
-    // 1) Where to load the list from (this is YOUR repo path)
-    const FETCH_URL = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/jobs.json";
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab active" id="tab-active" onclick="switchTab('active')">
+        Active Roles <span class="tab-badge" id="badge-active">–</span>
+      </button>
+      <button class="tab archive-tab" id="tab-archive" onclick="switchTab('archive')">
+        Archived Roles <span class="tab-badge" id="badge-archive">–</span>
+      </button>
+    </div>
+  </div>
 
-    function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
+  <!-- Archive info banner -->
+  <div class="archive-banner" id="archive-banner">
+    <p><strong>You're browsing archived listings.</strong> These roles are no longer accepting applications. Use them to research companies, understand what employers in Bermuda look for, and prepare your applications for when they reopen.</p>
+  </div>
+
+  <!-- Main layout -->
+  <div class="main">
+    <div>
+      <div class="results-meta">
+        <div class="results-count" id="results-count"></div>
+        <select class="sort-select" id="sort" onchange="applyFilters()">
+          <option value="newest">Sort: Most Recent</option>
+          <option value="deadline">Sort: Deadline Soonest</option>
+          <option value="az">Sort: A–Z</option>
+        </select>
+      </div>
+      <div id="job-list">
+        <div class="loading">
+          <div class="spinner"></div>
+          Loading roles…
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="scard scard-dark">
+        <div class="sc-eyebrow">Before You Apply</div>
+        <div class="sc-title">Know where you stand first.</div>
+        <p class="sc-body">The FRTF Self-Assessment takes 8 minutes and shows you exactly what to work on before you submit your first application.</p>
+        <a class="sc-btn sc-btn-orange" href="https://www.internshipinsightsco.com/for-students" target="_blank">Take the Free Assessment →</a>
+      </div>
+
+      <div class="scard scard-light">
+        <div class="vetted-badge">IIC Vetted ✦</div>
+        <p class="sc-body" style="margin-bottom:0">Roles with this badge have been reviewed by IIC. The employer has committed to a structured placement, a named deliverable, and fair compensation.</p>
+      </div>
+
+      <div class="scard scard-blue">
+        <div class="sc-title">Are you an employer?</div>
+        <p class="sc-body">Post your internship and reach Bermuda's most prepared student talent.</p>
+        <a class="sc-btn sc-btn-outline-white" href="https://www.internshipinsightsco.com/post" target="_blank">Post an Opportunity →</a>
+      </div>
+
+      <div class="scard scard-slate" id="sidebar-archive-tip" style="display:none">
+        <div class="sc-eyebrow">Using the Archive</div>
+        <p class="sc-body" style="margin-bottom:0">These past listings show you which companies hire interns in Bermuda, what skills they look for, and typical pay ranges. Great preparation for the next cycle.</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const JOBS_URL    = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/jobs/jobs.json";
+  const ARCHIVE_URL = "https://raw.githubusercontent.com/Internshipsbda/internshipsbda-job-board/main/archive/archive.json";
+
+  let activeJobs  = [];
+  let archivedJobs = [];
+  let currentTab  = 'active';
+
+  // ── Load both data sources in parallel ──
+  Promise.all([
+    fetch(JOBS_URL).then(r => r.json()).catch(() => []),
+    fetch(ARCHIVE_URL).then(r => r.json()).catch(() => [])
+  ]).then(([active, archived]) => {
+    activeJobs   = active   || [];
+    archivedJobs = archived || [];
+
+    // Populate sector dropdown from both sets
+    const sectors = new Set();
+    [...activeJobs, ...archivedJobs].forEach(j => (j.sector||[]).forEach(s => sectors.add(s)));
+    const sel = document.getElementById('sector');
+    [...sectors].sort().forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      sel.appendChild(o);
+    });
+
+    document.getElementById('badge-active').textContent  = activeJobs.length;
+    document.getElementById('badge-archive').textContent = archivedJobs.length;
+
+    applyFilters();
+  }).catch(() => {
+    document.getElementById('job-list').innerHTML =
+      "<div class='empty'><strong>Couldn't load roles</strong>Check back shortly or try refreshing.</div>";
   });
-}
 
-    function render(list) {
-      const g = document.getElementById('grid');
-      const empty = document.getElementById('empty');
-      g.innerHTML = "";
-      if (!list.length) { empty.style.display = "block"; return; }
-      empty.style.display = "none";
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tab-active').classList.toggle('active',  tab === 'active');
+    document.getElementById('tab-archive').classList.toggle('active', tab === 'archive');
+    document.getElementById('archive-banner').classList.toggle('show', tab === 'archive');
+    document.getElementById('sidebar-archive-tip').style.display = tab === 'archive' ? 'block' : 'none';
+    applyFilters();
+  }
 
-      list.forEach(job => {
-        const img = job.logo || "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
-        const sector = (job.sector && job.sector[0]) ? job.sector[0] : "opportunity";
-        g.insertAdjacentHTML("beforeend", `
-         <article class="card" data-paid="${job.isPaid ? "paid" : "unpaid"}">
-            <div class="img"><img src="${img}" alt="${job.company} logo" /></div>
-            <div class="pad">
-              <div class="kicker">${sector}</div>
-              <div class="title">${job.title}</div>
-              <div class="meta">
-               ${job.location || "Location unknown"}
-               ${job.applyBy ? " • Apply by " + formatDate(job.applyBy) : ""}
-            </div>
-               <a class="link" href="detail.html?slug=${job.slug}">Read More</a>
-          </article>
-        `);
-      });
+  function applyFilters() {
+    const term      = document.getElementById('search').value.toLowerCase().trim();
+    const sector    = document.getElementById('sector').value;
+    const workStyle = document.getElementById('workStyle').value;
+    const paid      = document.getElementById('paid').value;
+    const sort      = document.getElementById('sort').value;
+
+    const pool = currentTab === 'active' ? activeJobs : archivedJobs;
+
+    let list = pool.slice();
+
+    if (term) {
+      list = list.filter(j =>
+        (j.title||'').toLowerCase().includes(term) ||
+        (j.company||'').toLowerCase().includes(term) ||
+        (j.sector||[]).some(s => s.toLowerCase().includes(term))
+      );
+    }
+    if (sector)    list = list.filter(j => (j.sector||[]).includes(sector));
+    if (workStyle) list = list.filter(j => j.workStyle === workStyle);
+    if (paid === 'paid')   list = list.filter(j => j.isPaid === true);
+    if (paid === 'unpaid') list = list.filter(j => j.isPaid !== true);
+
+    if (sort === 'newest')   list.sort((a,b) => new Date(b.createdDate||0) - new Date(a.createdDate||0));
+    if (sort === 'deadline') list.sort((a,b) => new Date(a.applyBy||'9999-12-31') - new Date(b.applyBy||'9999-12-31'));
+    if (sort === 'az')       list.sort((a,b) => (a.title||'').localeCompare(b.title||''));
+
+    renderList(list);
+  }
+
+  function fmtDate(d) {
+    if (!d) return '';
+    return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+  }
+
+  function renderList(jobs) {
+    const el = document.getElementById('job-list');
+    const count = document.getElementById('results-count');
+    const isArchive = currentTab === 'archive';
+
+    const noun = isArchive ? 'archived role' : 'role';
+    count.innerHTML = `<strong>${jobs.length}</strong> ${noun}${jobs.length !== 1 ? 's' : ''} ${isArchive ? 'in the archive' : 'currently listed in Bermuda'}`;
+
+    if (!jobs.length) {
+      el.innerHTML = `<div class='empty'><strong>No ${noun}s match your filters</strong>${isArchive ? 'Try broadening your search — or check the active listings.' : 'Try broadening your search, or <a href="https://www.internshipinsightsco.com/post" target="_blank">post a role</a> to fill the gap.'}</div>`;
+      return;
     }
 
-    fetch(FETCH_URL).then(r => r.json()).then(jobs => {
-      console.log(jobs);
-      
-      // Hide expired (applyBy in the past)
-      const today = new Date();
-      jobs = jobs.filter(j => !j.applyBy || new Date(j.applyBy) >= today);
+    el.innerHTML = jobs.map(job => {
+      const sector   = (job.sector && job.sector[0]) || '';
+      const logoHtml = job.logo
+        ? `<img src="${job.logo}" alt="${escHtml(job.company)} logo" onerror="this.parentElement.textContent='🏢'">`
+        : '🏢';
+      const payHtml  = job.isPaid
+        ? `<div class="jc-pay">Paid</div>`
+        : `<div class="jc-pay unpaid">Unpaid</div>`;
+      const applyDeadline = job.applyBy ? `Apply by ${fmtDate(job.applyBy)}` : '';
+      const startInfo     = job.startDate ? `Starts ${fmtDate(job.startDate)}` : '';
+      const dateInfo      = applyDeadline || startInfo || '';
 
-      // Fill sector dropdown
-      const sectorSet = new Set();
-      jobs.forEach(j => (j.sector||[]).forEach(s => sectorSet.add(s)));
-      const sectorSelect = document.getElementById('sector');
-      [...sectorSet].sort().forEach(s => sectorSelect.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+      const applyBtn = isArchive
+        ? `<span class="jc-apply-btn expired-btn">Closed</span>`
+        : `<a class="jc-apply-btn" href="${job.applyLink||'detail.html?slug='+job.slug}" ${job.applyLink ? 'target="_blank"' : ''}>Apply →</a>`;
 
-      function applyFilters() {
-        const term = document.getElementById('search').value.toLowerCase();
-        const sector = document.getElementById('sector').value;
-        const loc = document.getElementById('location').value;
-        const sort = document.getElementById('sort').value;
+      const archiveLabel = isArchive
+        ? `<div class="archived-label">📦 Archived${job.applyBy ? ' · Closed '+fmtDate(job.applyBy) : ''}</div>`
+        : '';
 
-        let filtered = jobs.slice();
+      const desc = (job.description||'').replace(/\\n/g,' ').replace(/\s+/g,' ').trim().slice(0,200);
 
-        if (term) {
-          filtered = filtered.filter(j =>
-            j.title.toLowerCase().includes(term) ||
-            j.company.toLowerCase().includes(term)
-          );
-        }
-        if (sector) filtered = filtered.filter(j => (j.sector||[]).includes(sector));
-        if (loc) filtered = filtered.filter(j => j.location === loc);
+      return `
+        <a class="job-card${isArchive?' archived':''}"
+           href="detail.html?slug=${job.slug}${isArchive?'&source=archive':''}"
+           onclick="return !event.target.closest('.jc-apply-btn')">
+          ${archiveLabel}
+          <div class="jc-top">
+            <div class="jc-left">
+              <div class="jc-logo">${logoHtml}</div>
+              <div>
+                <div class="jc-title">${escHtml(job.title)}</div>
+                <div class="jc-company">${escHtml(job.company)} · ${escHtml(job.location||'Bermuda')}</div>
+                <div class="jc-tags">
+                  ${sector ? `<span class="tag tag-sector">${escHtml(sector)}</span>` : ''}
+                  ${job.workStyle ? `<span class="tag tag-style">${escHtml(job.workStyle.split(' ')[0])}</span>` : ''}
+                  ${job.duration  ? `<span class="tag tag-dur">${escHtml(job.duration)}</span>` : ''}
+                  ${job.isPaid    ? `<span class="tag tag-paid">Paid</span>` : ''}
+                  ${isArchive     ? `<span class="tag tag-expired">Archived</span>` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="jc-right">
+              ${payHtml}
+              ${dateInfo ? `<div class="jc-date">${dateInfo}</div>` : ''}
+              ${applyBtn}
+            </div>
+          </div>
+          ${desc ? `<div class="jc-desc">${escHtml(desc)}…</div>` : ''}
+        </a>`;
+    }).join('');
+  }
 
-        if (sort === "newest") filtered.sort((a,b) => new Date(b.createdDate) - new Date(a.createdDate));
-        if (sort === "deadline") filtered.sort((a,b) => new Date(a.applyBy||"9999-12-31") - new Date(b.applyBy||"9999-12-31"));
+  function escHtml(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
 
-        render(filtered);
-      }
-
-      document.querySelectorAll('#search,#sector,#location,#sort').forEach(el => {
-        el.addEventListener('input', applyFilters);
-        el.addEventListener('change', applyFilters);
-      });
-
-      applyFilters(); // first paint
-    }).catch(() => {
-      document.getElementById('grid').innerHTML = "<p class='empty'>Couldn’t load jobs. Double-check the FETCH_URL.</p>";
-    });
-  </script>
-  <script>
-
+  // Live search on input
+  ['search','sector','workStyle','paid'].forEach(id => {
+    document.getElementById(id).addEventListener('input', applyFilters);
+    document.getElementById(id).addEventListener('change', applyFilters);
+  });
 </script>
-
 </body>
 </html>
