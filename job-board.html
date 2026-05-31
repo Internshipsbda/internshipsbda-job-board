@@ -564,3 +564,14 @@
 </script>
 </body>
 </html>
+
+<script>
+  // Tell the parent Squarespace page how tall to make the iframe
+  function sendHeight() {
+    window.parent.postMessage({ type:'iic-height', height: document.body.scrollHeight + 40 }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  // Also fire after jobs load (slight delay for render)
+  setTimeout(sendHeight, 1500);
+</script>
