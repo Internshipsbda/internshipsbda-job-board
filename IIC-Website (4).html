@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internship Insights Co. — Bermuda's Internship System, Fixed.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FBA856;--orange2:#fcc070;--orange3:#fde4b8;
+  --blue:#5499BB;--blue2:#6badd1;--blue3:#d6eaf5;
+  --slate:#D3DCE1;--slate2:#e8edf0;--slate3:#f2f5f7;
+  --black:#111111;--black2:#1e1e1e;--black3:#333333;
+  --white:#FFFFFF;--offwhite:#f8f9fa;
+  --text:#2d3748;--text2:#4a5568;--muted:#718096;--muted2:#4a5568;
+  --border:rgba(0,0,0,0.09);--bl:rgba(0,0,0,0.08);
+  --border-dark:rgba(255,255,255,0.1);
+  /* Legacy aliases */
+  --ink:#111111;--ink2:#1e1e1e;
+  --teal:#5499BB;--teal2:#6badd1;--teal3:#5499BB;
+  --coral:#FBA856;--coral2:#fcc070;
+  --gold:#FBA856;--gold2:#fcc070;
+  --cream:#f8f9fa;--cream2:#e8edf0;
+  --white:#FFFFFF;
+  --border:rgba(0,0,0,0.09);--bl:rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+.page{display:none;}.page.active{display:block;animation:pi .3s ease;}
+@keyframes pi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:66px;background:rgba(255,255,255,.98);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(0,0,0,0.06);}
+.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--black);cursor:pointer;letter-spacing:.02em;line-height:1.1;}
+.nlogo span{color:var(--orange);}
+.nlinks{display:flex;gap:.2rem;align-items:center;}
+.nl{font-size:.77rem;font-weight:500;letter-spacing:.04em;padding:.4rem .85rem;border-radius:4px;cursor:pointer;background:none;border:none;color:var(--text2);transition:all .18s;font-family:'Inter',sans-serif;}
+.nl:hover{color:var(--black);}
+.nl.emp{color:var(--blue);border:1px solid rgba(84,153,187,.25);}.nl.emp:hover{background:var(--blue3);color:var(--blue);}
+.nl.mg{color:var(--orange);border:1px solid rgba(251,168,86,.3);}.nl.mg:hover{background:var(--orange3);color:var(--orange);}
+.nl.stu{color:var(--blue2);border:1px solid rgba(107,173,209,.25);}.nl.stu:hover{background:rgba(107,173,209,.1);color:var(--blue2);}
+.nl.cta-n{background:var(--orange);color:#fff;font-weight:600;border:none;border-radius:4px;}.nl.cta-n:hover{background:var(--orange2);}
+
+/* ── LAYOUT ── */
+.pt66{padding-top:82px;}
+section{padding:5.5rem 5vw;}
+.inner{max-width:1080px;margin:0 auto;}
+.inner-sm{max-width:660px;margin:0 auto;}
+.inner-md{max-width:840px;margin:0 auto;}
+
+/* ── TYPE ── */
+.ey{font-size:.67rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.85rem;display:block;}
+.et{color:var(--blue);}.ec{color:var(--orange);}.eg{color:var(--orange);}.ew{color:rgba(255,255,255,.5);}.ep{color:var(--blue2);}
+h1.hh{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5.5vw,5.2rem);font-weight:700;line-height:1.0;letter-spacing:-.01em;margin-bottom:1.5rem;}
+h2.sh{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.2vw,3rem);font-weight:600;line-height:1.1;letter-spacing:-.01em;margin-bottom:1rem;}
+h2.msh{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,2.5vw,2.4rem);font-weight:600;line-height:1.1;letter-spacing:-.01em;margin-bottom:1rem;}
+h3.ch{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:.5rem;line-height:1.15;}
+h3.sh3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:.4rem;}
+em.g{color:var(--orange);font-style:italic;}em.c{color:var(--orange);font-style:italic;}
+em.t{color:var(--blue);font-style:italic;}em.gd{color:var(--orange2);font-style:italic;}
+em.p{color:var(--blue2);font-style:italic;}
+p.blg{font-size:1.05rem;font-weight:300;line-height:1.8;color:var(--text2);}
+p.b{font-size:.9rem;line-height:1.75;color:var(--text2);}
+p.bw{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.65);}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.78rem 1.75rem;border-radius:4px;font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border:none;transition:all .2s;}
+.bc{background:var(--orange);color:#fff;}.bc:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(251,168,86,.35);}
+.bt{background:var(--blue);color:#fff;}.bt:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(84,153,187,.35);}
+.bg2{background:var(--orange);color:#fff;}.bg2:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(251,168,86,.35);}
+.bpu{background:var(--purple);color:#fff;}.bpu:hover{background:var(--purple2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,59,122,.35);}
+.bo{background:transparent;color:var(--black);border:1.5px solid rgba(17,17,17,.25);}.bo:hover{background:var(--black);color:var(--white);transform:translateY(-2px);}
+.bol{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.3);}.bol:hover{border-color:var(--white);background:rgba(255,255,255,.1);transform:translateY(-2px);}
+.bsm{padding:.5rem 1.1rem;font-size:.78rem;}
+.brow{display:flex;gap:.75rem;flex-wrap:wrap;}
+
+/* ── BG ── */
+.bink{background:var(--black);}.bteal{background:var(--blue);}.bpu-bg{background:var(--black2);}
+.bcream{background:var(--offwhite);}.bcream2{background:var(--slate2);}.bwhite{background:var(--white);}
+
+/* ── CARDS ── */
+.card{border-radius:8px;padding:2.25rem;border:1px solid var(--bl);transition:transform .2s,box-shadow .2s;}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1);}
+.cardd{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:2.25rem;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;}
+
+/* ── PILL ── */
+.pill{display:inline-flex;align-items:center;font-size:.67rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.27rem .68rem;border-radius:20px;}
+.pe{background:var(--blue3);color:var(--blue);border:1px solid rgba(84,153,187,.25);}
+.ps{background:var(--orange3);color:#b05c00;border:1px solid rgba(251,168,86,.3);}
+.pi{background:rgba(74,59,122,.12);color:var(--purple);border:1px solid rgba(74,59,122,.2);}
+
+/* ── CHECKLIST ── */
+.cl{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.cl li{display:flex;align-items:flex-start;gap:.65rem;font-size:.9rem;line-height:1.6;}
+.cl li::before{content:'✦';flex-shrink:0;margin-top:.1rem;font-size:.6rem;}
+.clt li{color:rgba(255,255,255,.8);}.clt li::before{color:rgba(255,255,255,.38);}
+.clte li::before{color:var(--blue);}
+.clco li::before{color:var(--coral2);}
+.clgo li::before{color:var(--orange);}
+.clpu li::before{color:#b8a0e8;}
+
+/* ── PATH CARDS ── */
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.pcard{border-radius:8px;padding:2.5rem 2rem 2rem;display:flex;flex-direction:column;gap:1rem;cursor:pointer;transition:transform .25s,box-shadow .25s;}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(14,28,20,.2);}
+.pc-e{background:var(--blue);}
+.pc-s{background:var(--black2);border-top:3px solid var(--orange);}
+.pc-i{background:var(--purple);}
+.picon{font-size:2rem;margin-bottom:.5rem;}
+.ptitle{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#fff;line-height:1.1;}
+.pdesc{font-size:.85rem;color:rgba(255,255,255,.68);line-height:1.65;flex:1;}
+.pfree{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .7rem;border-radius:20px;width:fit-content;}
+.pc-e .pfree{background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);}
+.pc-s .pfree{background:rgba(251,168,86,.2);color:#fcc070;}
+.pc-i .pfree{background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);}
+.pcta{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;color:#fff;background:none;border:none;cursor:pointer;transition:gap .15s;font-family:'Inter',sans-serif;padding:.6rem 1.2rem;border-radius:4px;margin-top:.5rem;width:fit-content;}
+.pc-e .pcta{background:rgba(255,255,255,.18);}.pc-e .pcta:hover{background:rgba(255,255,255,.28);gap:.8rem;}
+.pc-s .pcta{background:var(--orange);color:#fff;}.pc-s .pcta:hover{background:var(--orange2);gap:.8rem;}
+.pc-i .pcta{background:rgba(255,255,255,.2);}.pc-i .pcta:hover{background:rgba(255,255,255,.3);gap:.8rem;}
+
+/* ── FREEBIE BOX ── */
+.fbox{border-radius:10px;padding:2.5rem;display:flex;gap:2rem;align-items:center;flex-wrap:wrap;}
+.fbox-e{background:linear-gradient(135deg,#2d5f7a,var(--blue));border:1px solid rgba(255,255,255,.12);}
+.fbox-s{background:linear-gradient(135deg,#222222,#333333);border:1px solid rgba(251,168,86,.25);}
+.fbox-i{background:linear-gradient(135deg,var(--purple),var(--purple2));border:1px solid rgba(255,255,255,.15);}
+.fbox-icon{font-size:3rem;flex-shrink:0;}
+.fbox-label{font-size:.67rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+.fbox-e .fbox-label{color:rgba(255,255,255,.5);}
+.fbox-s .fbox-label{color:var(--orange2);}
+.fbox-i .fbox-label{color:rgba(255,255,255,.5);}
+.fbox-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+.fbox-desc{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.65;max-width:420px;}
+
+/* ── WHAT HAPPENS NEXT ── */
+.whn{display:flex;gap:0;counter-reset:whn-counter;}
+.whn-item{flex:1;display:flex;flex-direction:column;align-items:flex-start;padding:1.75rem 2rem;position:relative;}
+.whn-item:not(:last-child)::after{content:'→';position:absolute;right:-0.6rem;top:50%;transform:translateY(-50%);font-size:1.2rem;color:var(--muted);z-index:1;}
+.whn-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;line-height:1;margin-bottom:.6rem;}
+.whn-t{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:.35rem;}
+.whn-d{font-size:.82rem;color:var(--muted2);line-height:1.6;}
+.whn-e .whn-num{color:var(--blue);}
+.whn-s .whn-num{color:var(--orange);}
+.whn-i .whn-num{color:#b8a0e8;}
+
+/* ── QUOTE / BQ ── */
+.bq{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.2vw,2rem);font-weight:500;font-style:italic;line-height:1.5;border-left:3px solid var(--orange);padding-left:2rem;max-width:680px;}
+.bq-t{color:var(--blue);border-color:var(--blue);}
+.bq-w{color:var(--white);}
+.bq-c{border-color:var(--orange);}
+
+/* ── SOCIAL PROOF ── */
+.tcard{background:var(--white);border:1px solid var(--bl);border-radius:8px;padding:1.75rem;}
+.tq{font-size:.9rem;font-style:italic;line-height:1.72;margin-bottom:1.1rem;color:var(--ink2);}
+.tq::before{content:'\201C';color:var(--orange);font-family:'Cormorant Garamond',serif;font-size:1.3rem;}
+.tp{display:flex;align-items:center;gap:.7rem;}
+.tav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;}
+.tn{font-size:.82rem;font-weight:600;}
+.tr{font-size:.72rem;color:var(--muted);}
+
+/* ── EMAIL ROW ── */
+.erow{display:flex;gap:.5rem;max-width:420px;}
+.einput{flex:1;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:4px;padding:.68rem .95rem;color:var(--cream);font-family:'Inter',sans-serif;font-size:.84rem;outline:none;transition:border-color .2s;}
+.einput::placeholder{color:rgba(255,255,255,.32);}.einput:focus{border-color:var(--orange);}
+.einput-light{background:var(--white);border:1.5px solid var(--bl);color:var(--ink);}
+.einput-light::placeholder{color:var(--muted);}
+.einput-light:focus{border-color:var(--blue);}
+
+/* ── DIVIDERS ── */
+.dvl{border:none;border-top:1px solid var(--bl);}
+.dvld{border:none;border-top:1px solid var(--border);}
+
+/* ── URGENCY ── */
+.urg{padding:.72rem 5vw;text-align:center;font-size:.82rem;font-weight:500;letter-spacing:.03em;}
+.urg-co{background:var(--orange);color:#fff;}
+.urg-go{background:var(--orange);color:#fff;}
+.urg-pu{background:var(--purple);color:#fff;}
+
+/* ── INVEST BOX ── */
+.ibox{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.ilbl{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.inum{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--blue);}
+
+/* ── QUIZ / CAROUSEL ── */
+.qcarousel{position:relative;overflow:hidden;padding:5rem 5vw;background:var(--slate2);}
+.qslides{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.qslide{min-width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 5vw;}
+.qtext{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:600;line-height:1.25;color:var(--ink);margin-bottom:1.2rem;max-width:760px;}
+.qtext::before{content:'\201C';color:var(--orange);font-size:1.4em;line-height:0;vertical-align:-.2em;margin-right:.1em;}
+.qtext::after{content:'\201D';color:var(--orange);font-size:1.4em;line-height:0;vertical-align:-.2em;margin-left:.1em;}
+.qattr{font-size:.8rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);}
+.qdots{display:flex;gap:.6rem;justify-content:center;margin-top:2.5rem;}
+.qdot{width:7px;height:7px;border-radius:50%;background:var(--muted);border:none;cursor:pointer;transition:all .2s;padding:0;}
+.qdot.on{background:var(--orange);transform:scale(1.3);}
+.qarrows{display:flex;gap:.75rem;justify-content:center;margin-top:1.5rem;}
+.qarr{width:40px;height:40px;border-radius:50%;background:none;border:1.5px solid var(--bl);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--muted2);transition:all .2s;}
+.qarr:hover{border-color:var(--orange);color:var(--orange);}
+
+/* ── FOUNDER ── */
+.fpull{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:600;font-style:italic;line-height:1.3;color:var(--blue);border-top:3px solid var(--blue);padding-top:1.5rem;}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:4rem 5vw 2.5rem;border-top:1px solid var(--border);}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border);margin-bottom:2rem;}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--cream);margin-bottom:.7rem;}
+.flogo span{color:var(--orange);}
+.ftag{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1.4rem;}
+.fct{font-size:.67rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.85rem;}
+.fl{display:block;font-size:.82rem;color:rgba(255,255,255,.52);cursor:pointer;margin-bottom:.48rem;transition:color .15s;background:none;border:none;text-align:left;font-family:'Inter',sans-serif;}
+.fl:hover{color:var(--cream);}
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.fcp{font-size:.75rem;color:var(--muted2);line-height:1.6;}
+.pipa{font-size:.7rem;color:var(--muted2);margin-top:.4rem;}
+
+@media(max-width:860px){
+  .pcards,.g3,.ftop{grid-template-columns:1fr;}
+  .g2{grid-template-columns:1fr;}
+  .whn{flex-direction:column;}
+  .whn-item:not(:last-child)::after{content:'↓';right:auto;left:2rem;top:auto;bottom:-1rem;transform:none;}
+}
+@media(max-width:600px){.ftop{grid-template-columns:1fr 1fr;}}
+
+/* ── IMAGES ── */
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.hero-overlay{position:absolute;inset:0;z-index:1;}
+.hero-content{position:relative;z-index:2;}
+.img-split{width:100%;height:100%;min-height:420px;object-fit:cover;border-radius:10px;display:block;}
+.img-card{width:100%;height:260px;object-fit:cover;border-radius:8px 8px 0 0;display:block;}
+.img-circle{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;}
+.img-rounded{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block;}
+/* section image side panels */
+.img-panel{border-radius:10px;overflow:hidden;min-height:400px;background:var(--slate2);position:relative;}
+.img-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+/* floating stat badges over images */
+.img-badge{position:absolute;background:var(--white);border-radius:8px;padding:.9rem 1.25rem;box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;gap:.75rem;}
+.img-badge-num{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--orange);line-height:1;}
+.img-badge-lbl{font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.3;}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nlogo" onclick="go('home')">Internship Insights<span> Co.</span></div>
+  <div class="nlinks">
+    <button class="nl" onclick="go('home')">Home</button>
+    <button class="nl emp" onclick="go('employer')">For Employers</button>
+    <button class="nl mg" onclick="go('manager')">For Managers</button>
+    <button class="nl stu" onclick="go('student')">For Students</button>
+    <button class="nl" onclick="go('about')">About</button>
+    <button class="nl" onclick="go('jobboard')">Job Board</button>
+    <button class="nl cta-n" onclick="go('post')">Post an Opportunity</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="bink pt66" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:8rem;position:relative;overflow:hidden">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1800&q=80" alt="Team collaborating in a modern office" loading="eager">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.88) 0%,rgba(17,17,17,.72) 60%,rgba(84,153,187,.25) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey ew" style="margin-bottom:2rem">Bermuda's Only Internship Transformation Firm</span>
+      <h1 class="hh" style="color:var(--cream);max-width:820px">Bermuda's Internship<br>System Is Broken.<br><em class="c">We're Fixing It.</em></h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.58);max-width:580px;line-height:1.8;margin-bottom:3.5rem">Whether you're building a talent pipeline, managing young professionals, preparing for your first role, or running a career program — this is where transformation starts.</p>
+
+      <!-- Three paths -->
+      <div class="pcards">
+        <div class="pcard pc-e" onclick="go('employer')">
+          <div class="picon">🏢</div>
+          <div class="pfree">Free: Wicked Environment Diagnostic</div>
+          <div class="ptitle">I'm an Employer</div>
+          <p class="pdesc">Audit your internship program, train your managers, and build a pipeline that actually works.</p>
+          <button class="pcta">Get the Free Diagnostic →</button>
+        </div>
+        <div class="pcard" style="background:var(--ink);border-top:3px solid var(--coral)" onclick="go('manager')">
+          <div class="picon">👔</div>
+          <div class="pfree" style="background:rgba(200,80,58,.2);color:#f0a090">Free: Manager's Guide to Leading Interns</div>
+          <div class="ptitle">I'm a Manager</div>
+          <p class="pdesc">Get the practical tools to lead, develop, and get real results from young talent — starting now.</p>
+          <button class="pcta" style="background:var(--orange)">Get the Free Guide →</button>
+        </div>
+        <div class="pcard pc-s" onclick="go('student')">
+          <div class="picon">🎓</div>
+          <div class="pfree">Free: FRTF Self-Assessment</div>
+          <div class="ptitle">I'm a Student</div>
+          <p class="pdesc">Find out exactly where you stand before you apply — then get the preparation to close the gap.</p>
+          <button class="pcta">Take the Free Assessment →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voices from Bermuda carousel -->
+  <div class="qcarousel" id="qcar">
+    <div class="inner-sm" style="text-align:center;margin-bottom:2.5rem">
+      <span class="ey ec">What We're Hearing in Bermuda</span>
+      <p style="font-size:.9rem;color:var(--muted2)">From real interns, managers, and HR leaders across the island.</p>
+    </div>
+    <div class="qslides" id="qslides">
+      <div class="qslide"><div class="qtext">I'm getting exposure, but I don't feel like I'm making a real impact.</div><div class="qattr">— Intern</div></div>
+      <div class="qslide"><div class="qtext">Every summer, interns show up eager, but I'm scrambling to find tasks for them.</div><div class="qattr">— Intern Manager</div></div>
+      <div class="qslide"><div class="qtext">I barely have time to onboard full-time staff, let alone build a full intern program from scratch.</div><div class="qattr">— HR Manager</div></div>
+      <div class="qslide"><div class="qtext">Every year we talk about bringing in interns, but no one knows where to start.</div><div class="qattr">— Future Internship Provider</div></div>
+    </div>
+    <div class="qdots" id="qdots">
+      <button class="qdot on" onclick="goQ(0)"></button>
+      <button class="qdot" onclick="goQ(1)"></button>
+      <button class="qdot" onclick="goQ(2)"></button>
+      <button class="qdot" onclick="goQ(3)"></button>
+    </div>
+    <div class="qarrows">
+      <button class="qarr" onclick="stepQ(-1)">←</button>
+      <button class="qarr" onclick="stepQ(1)">→</button>
+    </div>
+  </div>
+
+  <!-- The problem -->
+  <section class="bcream2" style="padding-top:0;padding-bottom:0">
+    <div class="inner" style="padding:0">
+      <div style="padding:3.5rem 0 1.5rem"><span class="ey et">The Problem</span><h2 class="sh">Most internship programs aren't working.<br><em class="c">Here's what we mean.</em></h2></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
+        <div style="padding:2.5rem;border-right:1px solid var(--bl)"><span class="ey et" style="margin-bottom:.7rem">For Employers</span><p class="b">Your internship program is running. But is it working? Most aren't. They cost manager time, produce no measurable output, and leave interns feeling like they were in the way. That's not an internship. That's an expensive inconvenience.</p></div>
+        <div style="padding:2.5rem;border-right:1px solid var(--bl)"><span class="ey ec" style="margin-bottom:.7rem">For Managers</span><p class="b">Nobody taught you how to manage a 19-year-old. Your training was built for peers and direct reports — not for someone who's never had a real job, doesn't know how to receive feedback, and needs structure you've never been asked to create before.</p></div>
+        <div style="padding:2.5rem"><span class="ey eg" style="margin-bottom:.7rem">For Students</span><p class="b">You're smart enough to know you want more. But the application portal doesn't care. Neither does the hiring manager who sees 40 identical CVs. Without preparation, without skills, without someone in your corner — you're invisible. Not for long.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three services overview -->
+  <section class="bwhite">
+    <div class="inner">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:4rem">
+        <div>
+          <span class="ey et">What We Do</span>
+          <h2 class="sh" style="max-width:560px">One mission.<br><em class="t">Three ways to deliver it.</em></h2>
+          <p class="b">We fix the internship system at every level — helping employers design better programs, training managers to lead young talent, and preparing students to show up ready. Everything connects.</p>
+        </div>
+        <div style="position:relative;border-radius:12px;overflow:hidden;min-height:280px;background:var(--slate2)">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=900&q=80" alt="Manager and intern in discussion" style="width:100%;height:100%;min-height:280px;object-fit:cover;display:block" loading="lazy">
+          <div style="position:absolute;top:1.25rem;right:1.25rem;background:var(--white);border-radius:8px;padding:.75rem 1.1rem;box-shadow:0 4px 16px rgba(0,0,0,.1)">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--orange);line-height:1">[X]</div>
+            <div style="font-size:.68rem;font-weight:600;color:var(--text2)">Companies working<br>with IIC</div>
+          </div>
+        </div>
+      </div>
+      <div class="g3">
+        <div class="card" style="background:var(--cream);border-color:var(--blue);border-top:4px solid var(--teal)">
+          <div class="pill pe" style="margin-bottom:1.2rem">🏢 Employers</div>
+          <h3 class="ch">Wicked Environment Diagnostic + Audit</h3>
+          <p class="b" style="margin-bottom:1.5rem">Start with a free diagnostic to reveal where your program is failing. Then go deeper with a full Cognitive Scaffolding Audit and a custom rebuild roadmap.</p>
+          <button class="btn bt bsm" onclick="go('employer')">Get the Free Diagnostic →</button>
+        </div>
+        <div class="card" style="background:var(--ink);border-top:4px solid var(--coral)">
+          <div class="pill" style="margin-bottom:1.2rem;background:rgba(200,80,58,.2);color:#e08070;border:1px solid rgba(200,80,58,.3)">👔 Managers</div>
+          <h3 class="ch" style="color:var(--cream)">Manager's Guide + Workshop</h3>
+          <p class="bw" style="margin-bottom:1.5rem">Download the free guide nobody gave you when they handed you a 19-year-old. Then join the full-day workshop to build the skills to lead interns with confidence.</p>
+          <button class="btn bc bsm" onclick="go('manager')">Get the Free Guide →</button>
+        </div>
+        <div class="card" style="background:var(--ink2);border-top:4px solid var(--gold)">
+          <div class="pill ps" style="margin-bottom:1.2rem;background:rgba(201,168,76,.15)">🎓 Students</div>
+          <h3 class="ch" style="color:var(--cream)">FRTF Self-Assessment + Ignite Learning</h3>
+          <p class="bw" style="margin-bottom:1.5rem">Take the free assessment to know exactly where you stand. Then join Ignite Learning — four weeks of in-person preparation that makes you the candidate employers remember.</p>
+          <button class="btn bg2 bsm" onclick="go('student')">Take the Free Assessment →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand + Traction -->
+  <section class="bteal" style="position:relative;overflow:hidden">
+    <img class="hero-img" style="opacity:.18" src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1800&q=80" alt="Professional team" loading="lazy">
+    <div style="position:relative;z-index:1">
+    <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+      <div>
+        <span class="ey ew">Who We Are</span>
+        <h2 class="sh" style="color:var(--cream);margin-bottom:1.5rem">Bermuda's only firm dedicated to transforming how internships are built, managed, and experienced.</h2>
+        <p class="bw" style="margin-bottom:1.25rem">Founded by Sydney West — a graduated co-op student and former intern turned full-time professional who lived both sides of the equation, and realised there was no standard for any of it. We audit, measure, and rebuild programs based on data, not guesswork.</p>
+        <button class="btn bol bsm" onclick="go('about')">Our Story →</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.75rem;text-align:center">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1">[X]</div>
+          <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem">Companies on board</div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.75rem;text-align:center">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1">[X]</div>
+          <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem">Students trained</div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.75rem;text-align:center">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1">5</div>
+          <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem">Audit pilot spots <span style="color:var(--coral2);display:block;font-weight:600">3 claimed</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.75rem;text-align:center">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1">[X]</div>
+          <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem">Audits completed</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Bermuda's only firm dedicated to transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda<br>sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     EMPLOYER PAGE
+══════════════════════════════════════════ -->
+<div id="page-employer" class="page">
+  <div class="urg urg-co"><strong>Audit Pilot:</strong> 5 spots — <strong>3 already claimed.</strong> Apply before they're gone.</div>
+
+  <!-- Hero + Primary CTA (freebie) above fold -->
+  <section class="bteal pt66" style="position:relative;overflow:hidden">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1800&q=80" alt="Professional in a modern office environment" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(84,153,187,.95) 0%,rgba(45,95,122,.9) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey ew">For Employers</span>
+      <h1 class="hh" style="color:var(--cream);max-width:820px">Your Internship Program Is Either Building Your Future Workforce or <em class="gd">Wasting Everyone's Time.</em></h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.6);max-width:560px;line-height:1.8;margin-bottom:3rem">Most programs aren't designed — they're improvised. The companies winning the talent war in Bermuda are doing something different. Let's find out where you stand.</p>
+
+      <!-- PRIMARY CTA: freebie above fold -->
+      <div class="fbox fbox-e" style="max-width:720px;margin-bottom:2rem">
+        <div class="fbox-icon">🔍</div>
+        <div style="flex:1">
+          <div class="fbox-label">Free — Start Here</div>
+          <div class="fbox-title">Wicked Environment Diagnostic</div>
+          <p class="fbox-desc">20 questions that reveal exactly where your internship program is failing — and why. Takes 10 minutes. Gives you a clear picture before you invest in anything else.</p>
+          <div class="erow" style="margin-top:1.25rem">
+            <input class="einput" type="email" placeholder="Your work email">
+            <button class="btn bt bsm" style="white-space:nowrap">Get It Free →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY CTA: book a call -->
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+        <button class="btn bc">Book a Free 30-Min Strategy Call →</button>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.5)">No pitch. No pressure. Sydney answers every call personally.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social proof -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey et">What Employers Say</span>
+      <div class="g3" style="margin-top:1.5rem">
+        <div class="tcard"><p class="tq">Every summer, interns show up eager, but I'm scrambling to find tasks for them.</p><div class="tp"><div class="tav" style="background:var(--blue3);color:var(--blue)">IM</div><div><div class="tn">Intern Manager</div><div class="tr">Bermuda-based company</div></div></div></div>
+        <div class="tcard"><p class="tq">I barely have time to onboard full-time staff, let alone build a full intern program from scratch.</p><div class="tp"><div class="tav" style="background:var(--blue3);color:var(--blue)">HR</div><div><div class="tn">HR Manager</div><div class="tr">Professional services firm</div></div></div></div>
+        <div class="tcard"><p class="tq">Every year we talk about bringing in interns, but no one knows where to start.</p><div class="tp"><div class="tav" style="background:var(--blue3);color:var(--blue)">FI</div><div><div class="tn">Future Internship Provider</div><div class="tr">Bermuda SME</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="bwhite">
+    <div class="inner">
+      <span class="ey et">What We Offer</span>
+      <h2 class="sh" style="margin-bottom:3rem">From diagnostic<br><em class="t">to transformation.</em></h2>
+
+      <!-- Service 1: Cognitive Scaffolding Audit -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-bottom:5rem">
+        <div>
+          <div style="background:var(--blue);border-radius:8px;padding:.5rem 1rem;display:inline-flex;margin-bottom:1.2rem"><span style="font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.7)">Paid Service</span></div>
+          <h2 class="msh">Cognitive Scaffolding Audit</h2>
+          <p class="blg" style="margin-bottom:1.5rem">You can't fix what you don't measure. The Cognitive Scaffolding Audit is a deep diagnostic of your entire internship program — from how you recruit and onboard, to how you manage, evaluate, and offboard interns.</p>
+          <p class="b" style="margin-bottom:1.5rem">We go inside your organisation. We talk to your managers and your interns. We review your structure, documentation, and outcomes. Then we hand you a clear, actionable report with a 90-day rebuild roadmap.</p>
+          <button class="btn bt">Book a Discovery Call →</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1.25rem">
+          <div style="background:var(--blue);border-radius:8px;padding:2.25rem">
+            <span class="ey ew" style="margin-bottom:.75rem">What You Receive</span>
+            <ul class="cl clt">
+              <li>Full written audit report across 6 program dimensions</li>
+              <li>Benchmarked scores against Bermuda's best programs</li>
+              <li>A custom 90-day rebuild roadmap</li>
+              <li>A half-day implementation workshop with your team</li>
+              <li>30 days of advisory support post-delivery</li>
+            </ul>
+          </div>
+          <div style="background:var(--cream2);border-radius:8px;padding:1.75rem;border:1px solid var(--bl)">
+            <div class="ilbl" style="color:var(--muted2)">Who It's For</div>
+            <p class="b" style="margin-top:.3rem">Companies with existing internship programs who want to know the truth about how they're performing — and are ready to act on it.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 2: Manager Training -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+        <div style="background:var(--ink);border-radius:10px;padding:2.5rem">
+          <div style="background:var(--orange);border-radius:4px;padding:.4rem .85rem;display:inline-flex;margin-bottom:1.2rem"><span style="font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff">Manager Training</span></div>
+          <h2 class="msh" style="color:var(--cream)">Your Managers Are the Program.</h2>
+          <p class="bw" style="margin-bottom:1.25rem">The single biggest factor in whether an internship succeeds or fails is the manager running it. Not the program design. Not the salary. The manager.</p>
+          <p class="bw" style="margin-bottom:2rem">One full day. Real tools. The confidence to lead interns in a way that actually develops them — and develops your managers in the process. Up to 15 per session.</p>
+          <button class="btn bc" onclick="go('manager')">Register Your Interest →</button>
+        </div>
+        <div>
+          <span class="ey et">Workshop Covers</span>
+          <div style="display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem">
+            <div style="background:var(--cream2);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--teal)"><div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">Understanding Who You're Leading</div><p style="font-size:.82rem;color:var(--muted2);line-height:1.55">Gen Z isn't difficult. They're different. Learn how to bridge the gap fast.</p></div>
+            <div style="background:var(--cream2);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--teal)"><div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">Structure That Sets Them Up to Win</div><p style="font-size:.82rem;color:var(--muted2);line-height:1.55">A first-30-days framework you can use immediately after the workshop.</p></div>
+            <div style="background:var(--cream2);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--teal)"><div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">Feedback That Actually Lands</div><p style="font-size:.82rem;color:var(--muted2);line-height:1.55">Deliver feedback young professionals can hear, absorb, and act on.</p></div>
+            <div style="background:var(--cream2);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--teal)"><div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">Turning Interns Into Future Hires</div><p style="font-size:.82rem;color:var(--muted2);line-height:1.55">Identify potential, nurture it, and make the case for conversion.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What happens next -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey et">What Happens Next</span>
+      <h2 class="sh" style="margin-bottom:2.5rem">Don't leave guessing.<br><em class="t">Here's the exact path.</em></h2>
+      <div class="whn whn-e">
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num">1</div>
+          <div class="whn-t">Get the Free Diagnostic</div>
+          <p class="whn-d">Complete the Wicked Environment Diagnostic. Takes 10 minutes. Reveals exactly where your program stands.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num">2</div>
+          <div class="whn-t">Book a Strategy Call</div>
+          <p class="whn-d">A free 30-minute conversation about what the diagnostic revealed and what you want to do about it. No pitch.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num">3</div>
+          <div class="whn-t">Choose Your Path</div>
+          <p class="whn-d">Full Cognitive Scaffolding Audit, Manager Training Workshop, or Program Design from scratch — based on what you actually need.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num">4</div>
+          <div class="whn-t">Rebuild & Measure</div>
+          <p class="whn-d">We deliver your roadmap, run the workshop, and stay in your corner for 30 days of implementation support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda — sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     STUDENT PAGE
+══════════════════════════════════════════ -->
+<div id="page-student" class="page">
+  <div class="urg urg-go">✦ <strong>Ignite Learning is launching Summer 2025.</strong> Register your interest now — early registrants get priority placement and a free resource bundle.</div>
+
+  <!-- Hero + Primary CTA above fold -->
+  <section class="bink pt66" style="position:relative;overflow:hidden">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1800&q=80" alt="Confident young professional" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.9) 0%,rgba(17,17,17,.75) 55%,rgba(251,168,86,.15) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey eg">For Students — Ages 16–24</span>
+      <h1 class="hh" style="color:var(--cream);max-width:760px">The Internship You Want Isn't Going to <em class="gd">Find You.</em><br>Go Get It.</h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.6);max-width:560px;line-height:1.8;margin-bottom:3rem">Every year, Bermuda's best opportunities go to the most <strong style="color:var(--cream)">prepared</strong> student — not the smartest, not the most connected. Find out where you actually stand right now.</p>
+
+      <!-- PRIMARY CTA: freebie above fold -->
+      <div class="fbox fbox-s" style="max-width:720px;margin-bottom:2rem">
+        <div class="fbox-icon">📋</div>
+        <div style="flex:1">
+          <div class="fbox-label">Free — Start Here</div>
+          <div class="fbox-title">FRTF Self-Assessment</div>
+          <p class="fbox-desc">The Future-Ready Talent Framework assessment reveals exactly where you stand across five dimensions: communication, professional presence, workplace navigation, self-awareness, and initiative. Takes 8 minutes. Tells you what to work on first.</p>
+          <div class="erow" style="margin-top:1.25rem">
+            <input class="einput" type="email" placeholder="Your email">
+            <button class="btn bg2 bsm" style="color:var(--ink);white-space:nowrap">Get It Free →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY CTA -->
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+        <button class="btn bg2" style="color:#fff" onclick="document.getElementById('ignite-waitlist').scrollIntoView({behavior:'smooth'})">Register Your Interest →</button>
+        <button class="btn bol" onclick="document.getElementById('free-resources').scrollIntoView({behavior:'smooth'})">Browse Free Resources →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social proof -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey et">What Students Say</span>
+      <div class="g3" style="margin-top:1.5rem">
+        <div class="tcard"><p class="tq">I'd been applying cold for months with zero responses. After Ignite, I had an offer within two weeks at a firm I'd been following for years.</p><div class="tp"><div class="tav" style="background:rgba(201,168,76,.15);color:#8b4a00">PM</div><div><div class="tn">Priya M.</div><div class="tr">Design Intern, Bermuda</div></div></div></div>
+        <div class="tcard"><p class="tq">My IIC mentor helped me negotiate my first offer. I ended up 20% above the initial package. That kind of guidance doesn't exist anywhere else on the island.</p><div class="tp"><div class="tav" style="background:rgba(201,168,76,.15);color:#8b4a00">DK</div><div><div class="tn">Dev K.</div><div class="tr">Engineering Intern, Bermuda</div></div></div></div>
+        <div class="tcard"><p class="tq">I wasn't sure what I wanted. IIC helped me find clarity — and then the right role to match it. The FRTF assessment was the honest feedback I'd never gotten before.</p><div class="tp"><div class="tav" style="background:rgba(201,168,76,.15);color:#8b4a00">SR</div><div><div class="tn">Sofia R.</div><div class="tr">Product Intern, Bermuda</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paid offering: Ignite Learning -->
+  <section class="bwhite">
+    <div class="inner">
+      <div style="background:var(--blue3);border-radius:12px;overflow:hidden;margin-bottom:4rem;display:grid;grid-template-columns:1fr 1fr;min-height:320px">
+        <div style="padding:3rem">
+          <span class="ey et" style="margin-bottom:.5rem">Why Ignite Works</span>
+          <h3 class="ch" style="margin-bottom:1rem">The preparation gap is real.<br>And it's completely closeable.</h3>
+          <p class="b">Students who complete Ignite Learning walk into interviews with a polished CV, a mock interview on record, and the confidence of someone who's already practiced the hardest parts.</p>
+        </div>
+        <div style="position:relative;min-height:280px">
+          <img class="img-rounded" src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Young professionals in a workshop" loading="lazy" style="height:100%;border-radius:0">
+          <div style="position:absolute;bottom:1.5rem;left:1.5rem;background:var(--white);border-radius:8px;padding:.9rem 1.25rem;box-shadow:0 4px 20px rgba(0,0,0,.12)">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--orange);line-height:1">4 wks</div>
+            <div style="font-size:.72rem;font-weight:600;color:var(--text2)">In-person programme</div>
+          </div>
+        </div>
+      </div>
+      <span class="ey et">Paid Programme</span>
+      <h2 class="sh" style="margin-bottom:.75rem">Ignite Learning.<br><em class="t">Four weeks. In person. Career-changing.</em></h2>
+      <p class="b" style="max-width:560px;margin-bottom:3.5rem">The FRTF Assessment shows you the gap. Ignite Learning closes it. Four weeks of in-person preparation covering everything the school system never taught you about the workplace.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <div style="background:var(--ink);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:3.5rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:.1rem">WK</span>01</div><div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.35rem">Know Your Value</div><p class="bw">Identify your strengths, build your personal brand, learn to talk about yourself in a way that makes employers pay attention.</p></div></div>
+          <div style="background:var(--ink);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:3.5rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:.1rem">WK</span>02</div><div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.35rem">Communicate Like a Professional</div><p class="bw">Email, presenting ideas, receiving feedback, speaking up. These are skills — and skills can be learned.</p></div></div>
+          <div style="background:var(--ink);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:3.5rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:.1rem">WK</span>03</div><div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.35rem">Navigate the Workplace</div><p class="bw">Culture, hierarchy, conflict, relationships — the unwritten rules nobody explains until you break one. We explain them all before you walk through the door.</p></div></div>
+          <div style="background:var(--ink);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:3.5rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:.1rem">WK</span>04</div><div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:.35rem">Land the Opportunity</div><p class="bw">A CV that stands out, an interview that gets remembered, and a strategy for turning one internship into a career trajectory.</p></div></div>
+        </div>
+        <div>
+          <div style="background:var(--blue);border-radius:10px;padding:2.5rem;margin-bottom:1.5rem">
+            <span class="ey ew" style="margin-bottom:.75rem">What You Walk Away With</span>
+            <ul class="cl clt">
+              <li>A professionally crafted CV reviewed by our team</li>
+              <li>A mock interview session with real feedback</li>
+              <li>Ignite Learning Certificate of Completion</li>
+              <li>Priority access to Bermuda's IIC job board</li>
+              <li>An industry mentor connection</li>
+              <li>A network of peers who are just as serious as you are</li>
+            </ul>
+          </div>
+          <div id="ignite-waitlist" style="background:var(--black);border-radius:8px;padding:2rem;border:1px solid var(--border)">
+            <div style="font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.6rem">Launching Summer 2025</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--white);line-height:1.2;margin-bottom:.6rem">Register your interest.<br>Be first in line.</div>
+            <p style="font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:1.5rem">We're finalising the first cohort now. Early registrants get priority placement and a free resource bundle — CV template, interview bank, and readiness checklist — delivered immediately.</p>
+            <!-- Kit form embed: replace with your Kit form snippet -->
+            <div style="background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.2);border-radius:6px;padding:1.25rem;margin-bottom:1rem;text-align:center">
+              <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:.5rem">[ Kit form embed goes here — tag: ignite-waitlist ]</p>
+              <div style="display:flex;gap:.5rem">
+                <input class="einput" type="text" placeholder="Your name" style="flex:1">
+                <input class="einput" type="email" placeholder="Your email" style="flex:1">
+                <button class="btn bg2 bsm" style="color:#fff;white-space:nowrap">Register →</button>
+              </div>
+            </div>
+            <p style="font-size:.75rem;color:rgba(255,255,255,.35);text-align:center">Investment: $750–$1,500 depending on cohort format. Payment plans available.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Free resources -->
+  <section class="bcream2" id="free-resources">
+    <div class="inner">
+      <span class="ey eg">Free Resources</span>
+      <h2 class="sh" style="margin-bottom:.75rem">Level up before<br><em class="t">you even apply.</em></h2>
+      <p class="b" style="max-width:540px;margin-bottom:3rem">Everything in the IIC resource library is built specifically for early-career students. Practical, direct, and free.</p>
+      <div class="g3">
+        <div class="card" style="background:var(--white)"><div style="font-size:1.6rem;margin-bottom:.9rem">📄</div><h3 class="ch" style="font-size:1.1rem">Intern Resume Template</h3><p class="b" style="margin-bottom:1.25rem">ATS-friendly, built for students. Three layout variants plus line-by-line guidance.</p><button class="btn bt bsm">Download Free →</button></div>
+        <div class="card" style="background:var(--white)"><div style="font-size:1.6rem;margin-bottom:.9rem">🎤</div><h3 class="ch" style="font-size:1.1rem">Behavioral Interview Bank</h3><p class="b" style="margin-bottom:1.25rem">50+ STAR-method answers organized by competency. Study or use as frameworks for your own.</p><button class="btn bt bsm">Download Free →</button></div>
+        <div class="card" style="background:var(--white)"><div style="font-size:1.6rem;margin-bottom:.9rem">✅</div><h3 class="ch" style="font-size:1.1rem">Career Readiness Checklist</h3><p class="b" style="margin-bottom:1.25rem">Everything you need to do before you apply for your first internship — in one practical list.</p><button class="btn bt bsm">Download Free →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What happens next -->
+  <section class="bwhite">
+    <div class="inner">
+      <span class="ey et">What Happens Next</span>
+      <h2 class="sh" style="margin-bottom:2.5rem">A clear path.<br><em class="t">No guessing.</em></h2>
+      <div class="whn whn-s">
+        <div class="whn-item" style="background:var(--cream2);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">1</div>
+          <div class="whn-t">Take the Free FRTF Assessment</div>
+          <p class="whn-d">8 minutes. Tells you exactly where you're strong and where you need work before you apply anywhere.</p>
+        </div>
+        <div class="whn-item" style="background:var(--cream2);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">2</div>
+          <div class="whn-t">Register Your Interest</div>
+          <p class="whn-d">Sign up for the waitlist and get your free resource bundle instantly. We'll confirm your spot and send dates as soon as the first cohort is confirmed.</p>
+        </div>
+        <div class="whn-item" style="background:var(--cream2);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">3</div>
+          <div class="whn-t">Complete the Four Weeks</div>
+          <p class="whn-d">In person, intensive, and practical. Four weeks of preparation covering everything the system never taught you about the professional world.</p>
+        </div>
+        <div class="whn-item" style="background:var(--cream2);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">4</div>
+          <div class="whn-t">Access the Job Board & Mentor</div>
+          <p class="whn-d">Priority access to Bermuda's IIC job board, an industry mentor, and ongoing support until you're placed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda — sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MANAGERS PAGE
+══════════════════════════════════════════ -->
+<div id="page-manager" class="page">
+  <div class="urg" style="background:var(--blue);color:#fff">✦ <strong>Manager Workshop is launching Summer 2025.</strong> Register your interest — early registrants get priority booking and a free copy of the Manager's Guide.</div>
+
+  <!-- Hero + Primary CTA above fold -->
+  <section class="bink pt66" style="position:relative;overflow:hidden">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1800&q=80" alt="Professional woman in a business setting" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.92) 0%,rgba(17,17,17,.78) 60%,rgba(251,168,86,.18) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey ec">For Managers</span>
+      <h1 class="hh" style="color:var(--cream);max-width:720px">Nobody Taught You <em class="c">This Part.</em><br>We Will.</h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.6);max-width:560px;line-height:1.8;margin-bottom:3rem">You've managed projects. Budgets. Teams. But an intern who's never had a real job, doesn't know workplace norms, and is watching your every move to figure out what "professional" means? That requires a completely different skill set.</p>
+
+      <!-- PRIMARY CTA: freebie above fold -->
+      <div class="fbox fbox-e" style="max-width:720px;margin-bottom:2rem;background:linear-gradient(135deg,#1a1a2e,#2d1a1a);border-color:rgba(200,80,58,.3)">
+        <div class="fbox-icon">📘</div>
+        <div style="flex:1">
+          <div class="fbox-label" style="color:rgba(255,255,255,.45)">Free — Start Here</div>
+          <div class="fbox-title">The Manager's Guide to Leading Interns</div>
+          <p class="fbox-desc">The playbook nobody gave you when they handed you a 19-year-old and called it an internship. Covers briefing, feedback, accountability, and how to know when an intern is ready to convert.</p>
+          <div class="erow" style="margin-top:1.25rem">
+            <input class="einput" type="email" placeholder="Your work email">
+            <button class="btn bc bsm" style="white-space:nowrap">Get It Free →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECONDARY CTA -->
+      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+        <button class="btn bc" onclick="document.getElementById('manager-waitlist').scrollIntoView({behavior:'smooth'})">Register Your Interest →</button>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.5)">Launching Summer 2025 — secure your spot now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Opening / Problem -->
+  <section class="bwhite">
+    <div class="inner-md">
+      <p class="blg" style="margin-bottom:1.5rem">Managing a young person who's never had a real job, doesn't know workplace norms, needs constant direction but hates feeling micromanaged, and is watching your every move to figure out what "professional" actually means — that requires a completely different skill set.</p>
+      <div class="bq bq-c" style="margin:2.5rem 0">Most managers figure it out by trial and error. The intern gets a mediocre experience. The manager gets frustrated. And the company wonders why their internship program isn't producing the talent it promised.</div>
+      <p class="blg">There's a better way.</p>
+    </div>
+  </section>
+
+  <!-- Social proof -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey ec">What Managers Say</span>
+      <div class="g3" style="margin-top:1.5rem">
+        <div class="tcard"><p class="tq">Every summer, interns show up eager, but I'm scrambling to find tasks for them. I never know if what I'm doing is actually developing them.</p><div class="tp"><div class="tav" style="background:rgba(200,80,58,.1);color:var(--orange)">IM</div><div><div class="tn">Intern Manager</div><div class="tr">Professional services, Bermuda</div></div></div></div>
+        <div class="tcard"><p class="tq">Nobody trained me to manage someone who's never had a job before. I just winged it and hoped for the best. I know that's not good enough.</p><div class="tp"><div class="tav" style="background:rgba(200,80,58,.1);color:var(--orange)">TL</div><div><div class="tn">Team Lead</div><div class="tr">Financial services, Bermuda</div></div></div></div>
+        <div class="tcard"><p class="tq">I barely have time to onboard full-time staff, let alone build a structured intern experience from scratch every year.</p><div class="tp"><div class="tav" style="background:rgba(200,80,58,.1);color:var(--orange)">HR</div><div><div class="tn">HR Manager</div><div class="tr">Corporate firm, Bermuda</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshop modules -->
+  <section class="bwhite">
+    <div class="inner">
+      <span class="ey ec">The Workshop</span>
+      <h2 class="sh" style="margin-bottom:.75rem">One Day That Changes How You Lead Young Talent — <em class="c">Forever.</em></h2>
+      <p class="b" style="max-width:560px;margin-bottom:3rem">In-person, full-day workshop. Delivered at your organisation or our training space in Hamilton. Up to 15 managers per session. Individual seats available — contact us for availability.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+        <div>
+          <div style="display:flex;flex-direction:column">
+            <div style="display:flex;gap:1.5rem;padding:2rem 0;border-bottom:1px solid var(--bl)"><div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:2.6rem">1</div><div><h3 class="sh3">Understanding Who You're Leading</h3><p class="b">Gen Z isn't lazy, entitled, or difficult. They're different. Learn how they think, what motivates them, what terrifies them, and how to bridge the gap between their world and yours — fast.</p></div></div>
+            <div style="display:flex;gap:1.5rem;padding:2rem 0;border-bottom:1px solid var(--bl)"><div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:2.6rem">2</div><div><h3 class="sh3">Structure That Sets Them Up to Win</h3><p class="b">How to design an intern's first 30 days so they hit the ground running. You'll leave with a first-week framework you can use immediately after the workshop.</p></div></div>
+            <div style="display:flex;gap:1.5rem;padding:2rem 0;border-bottom:1px solid var(--bl)"><div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:2.6rem">3</div><div><h3 class="sh3">Feedback That Actually Lands</h3><p class="b">Most managers give feedback that bounces right off. Learn how to deliver it in a way that young professionals can hear, absorb, and act on — without shutting down.</p></div></div>
+            <div style="display:flex;gap:1.5rem;padding:2rem 0;border-bottom:1px solid var(--bl)"><div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:2.6rem">4</div><div><h3 class="sh3">Accountability Without Micromanagement</h3><p class="b">The exact balance between giving interns space to grow and holding them to real professional standards. How to set expectations, check in effectively, and handle it when things go sideways.</p></div></div>
+            <div style="display:flex;gap:1.5rem;padding:2rem 0"><div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:2.6rem">5</div><div><h3 class="sh3">Turning Interns Into Future Hires</h3><p class="b">The managers who run the best internship programs aren't just developing interns — they're building their future team. Learn how to identify potential, nurture it, and make the case for conversion.</p></div></div>
+          </div>
+        </div>
+        <div>
+          <div style="background:var(--orange);border-radius:10px;padding:2.5rem;margin-bottom:1.5rem">
+            <span class="ey ew" style="margin-bottom:.75rem">What You Walk Away With</span>
+            <ul class="cl clt">
+              <li>A personal intern management playbook built during the workshop</li>
+              <li>A structured 30-day intern onboarding template</li>
+              <li>A feedback script you can use from day one</li>
+              <li>Clarity on how to evaluate and report on intern performance</li>
+              <li>A network of Bermuda managers navigating the same challenges</li>
+            </ul>
+          </div>
+          <div id="manager-waitlist" style="background:var(--black);border-radius:8px;padding:2rem;border:1px solid var(--border)">
+            <div style="font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.6rem">Launching Summer 2025</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--white);line-height:1.2;margin-bottom:.6rem">Register your interest.<br>Dates confirmed soon.</div>
+            <p style="font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:1.5rem">We're finalising the first cohort now. Register below and we'll send you the free Manager's Guide immediately — plus priority booking when dates go live.</p>
+            <!-- Kit form embed: replace with your Kit form snippet — tag: manager-waitlist -->
+            <div style="background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.2);border-radius:6px;padding:1.25rem;margin-bottom:1rem;text-align:center">
+              <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:.5rem">[ Kit form embed goes here — tag: manager-waitlist ]</p>
+              <div style="display:flex;gap:.5rem">
+                <input class="einput" type="text" placeholder="Your name" style="flex:1">
+                <input class="einput" type="email" placeholder="Your work email" style="flex:1">
+                <button class="btn bc bsm" style="white-space:nowrap">Register →</button>
+              </div>
+            </div>
+            <p style="font-size:.75rem;color:rgba(255,255,255,.35);text-align:center">In-person, full-day · Up to 15 managers per session · Individual seats available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What happens next -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey ec">What Happens Next</span>
+      <h2 class="sh" style="margin-bottom:2.5rem">A clear path.<br><em class="c">No guessing.</em></h2>
+      <div class="whn">
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">1</div>
+          <div class="whn-t">Get the Free Guide</div>
+          <p class="whn-d">Download the Manager's Guide to Leading Interns. Start applying it immediately — most managers use it the same week.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">2</div>
+          <div class="whn-t">Register Your Interest</div>
+          <p class="whn-d">Sign up for the waitlist. You'll receive the free Manager's Guide immediately and priority booking when Summer 2025 dates are confirmed.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">3</div>
+          <div class="whn-t">Apply the Tools</div>
+          <p class="whn-d">Your onboarding template, feedback scripts, and check-in structure are ready to use the Monday after the workshop.</p>
+        </div>
+        <div class="whn-item" style="background:var(--white);border-radius:8px;border:1px solid var(--bl)">
+          <div class="whn-num" style="color:var(--orange)">4</div>
+          <div class="whn-t">Convert the Best Ones</div>
+          <p class="whn-d">With documented performance data and a clear conversion framework, you can make an evidence-based case for bringing the right intern on full-time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The truth closer -->
+  <section class="bink">
+    <div class="inner-sm" style="text-align:center">
+      <span class="ey ec">The Truth They Don't Tell You</span>
+      <div class="bq bq-w bq-c" style="margin:1.5rem auto;text-align:left">The best internship experience you ever had — if you had one — probably came down to one person. One manager who gave you real work, real feedback, and made you feel like you belonged there.</div>
+      <p class="bw" style="margin-bottom:2.5rem">You can be that manager. For every intern who comes through your door. That's not soft. That's how you build a reputation as the leader people want to work for.</p>
+      <div class="brow" style="justify-content:center">
+        <button class="btn bc" onclick="document.getElementById('manager-waitlist').scrollIntoView({behavior:'smooth'})">Register Your Interest →</button>
+        <button class="btn bol" onclick="go('employer')">My Company Needs the Audit →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda — sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+
+<!-- ══════════════════════════════════════════
+     JOB BOARD PAGE
+══════════════════════════════════════════ -->
+<div id="page-jobboard" class="page">
+
+  <!-- Hero -->
+  <section class="bink pt66" style="position:relative;overflow:hidden;padding-bottom:4rem">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1800&q=80" alt="Professionals in a modern workplace" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.92) 0%,rgba(84,153,187,.25) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--orange);color:#fff;border-radius:20px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem">🇧🇲 Bermuda Only</div>
+      <h1 class="hh" style="color:var(--white);max-width:700px">Bermuda's Internship<br><em style="color:var(--orange);font-style:italic">Job Board.</em></h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.62);max-width:540px;line-height:1.8;margin-bottom:2.5rem">Every role here is real, paid, and posted by a vetted Bermuda employer. No filler. No unpaid "exposure." Just opportunities worth applying for.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <button class="btn bt" onclick="go('student')">Create Your Profile →</button>
+        <button class="btn bol" onclick="go('post')">Post an Opportunity →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Filter bar -->
+  <section class="bwhite" style="padding:2rem 5vw;border-bottom:1px solid var(--border)">
+    <div class="inner">
+      <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:.75rem;align-items:center">
+        <div style="position:relative">
+          <span style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem">🔍</span>
+          <input type="text" placeholder="Search roles, industries, or companies…" style="width:100%;background:var(--slate2);border:1.5px solid var(--border);border-radius:6px;padding:.72rem 1rem .72rem 2.6rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <select style="background:var(--slate2);border:1.5px solid var(--border);border-radius:6px;padding:.72rem 1rem;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text);outline:none;cursor:pointer">
+          <option>All Industries</option>
+          <option>Finance & Insurance</option>
+          <option>Law & Legal</option>
+          <option>Technology</option>
+          <option>Marketing & Media</option>
+          <option>Architecture & Design</option>
+          <option>Healthcare</option>
+          <option>Government & Non-profit</option>
+          <option>Hospitality & Tourism</option>
+        </select>
+        <select style="background:var(--slate2);border:1.5px solid var(--border);border-radius:6px;padding:.72rem 1rem;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text);outline:none;cursor:pointer">
+          <option>Any Duration</option>
+          <option>4–6 weeks</option>
+          <option>8–10 weeks</option>
+          <option>12 weeks</option>
+          <option>Semester</option>
+          <option>Rolling</option>
+        </select>
+        <select style="background:var(--slate2);border:1.5px solid var(--border);border-radius:6px;padding:.72rem 1rem;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text);outline:none;cursor:pointer">
+          <option>Any Format</option>
+          <option>In-Person</option>
+          <option>Hybrid</option>
+          <option>Remote</option>
+        </select>
+        <button class="btn bt bsm">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Job listings -->
+  <section class="bwhite" style="padding-top:2.5rem">
+    <div class="inner">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start">
+
+        <!-- Left: listings -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+            <p style="font-size:.85rem;color:var(--muted)"><strong style="color:var(--text)">12 roles</strong> currently listed in Bermuda</p>
+            <select style="background:none;border:none;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--text2);cursor:pointer;outline:none">
+              <option>Sort: Most Recent</option>
+              <option>Sort: A–Z</option>
+              <option>Sort: Duration</option>
+            </select>
+          </div>
+
+          <!-- Job Card -->
+          <div id="job-listings">
+
+            <!-- CARD 1 -->
+            <div class="jb-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1rem;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='var(--blue)';this.style.boxShadow='0 4px 20px rgba(0,0,0,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                <div style="display:flex;gap:1.25rem;align-items:flex-start">
+                  <div style="width:52px;height:52px;border-radius:10px;background:var(--blue3);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">💼</div>
+                  <div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--black);margin-bottom:.2rem">Finance & Investment Intern</div>
+                    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">Meridian Capital Partners · Hamilton, Bermuda</div>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                      <span style="background:var(--blue3);color:var(--blue);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600;letter-spacing:.08em">Finance</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">In-Person</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">10 weeks</span>
+                      <span style="background:rgba(251,168,86,.15);color:#8b4a00;border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">IIC Vetted ✦</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--orange)">$18/hr</div>
+                  <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">Summer 2025</div>
+                  <button class="btn bt bsm" style="margin-top:.75rem">Apply →</button>
+                </div>
+              </div>
+              <p class="b" style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">Support the investment team with research, financial modelling, and market analysis. You'll own a real deliverable by week 6 — not just shadow meetings.</p>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="jb-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1rem;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='var(--blue)';this.style.boxShadow='0 4px 20px rgba(0,0,0,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                <div style="display:flex;gap:1.25rem;align-items:flex-start">
+                  <div style="width:52px;height:52px;border-radius:10px;background:var(--orange3);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">⚖️</div>
+                  <div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--black);margin-bottom:.2rem">Legal Research Intern</div>
+                    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">Attride-Stirling & Woloniecki · Hamilton, Bermuda</div>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                      <span style="background:var(--orange3);color:#8b4a00;border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600;letter-spacing:.08em">Law</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">In-Person</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">12 weeks</span>
+                      <span style="background:rgba(251,168,86,.15);color:#8b4a00;border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">IIC Vetted ✦</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--orange)">$20/hr</div>
+                  <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">Summer 2025</div>
+                  <button class="btn bt bsm" style="margin-top:.75rem">Apply →</button>
+                </div>
+              </div>
+              <p class="b" style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">Research and summarise legal precedent, assist with case preparation, and attend client briefings. Strong writing skills essential. Law students preferred but not required.</p>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="jb-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1rem;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='var(--blue)';this.style.boxShadow='0 4px 20px rgba(0,0,0,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                <div style="display:flex;gap:1.25rem;align-items:flex-start">
+                  <div style="width:52px;height:52px;border-radius:10px;background:var(--slate2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">📊</div>
+                  <div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--black);margin-bottom:.2rem">Marketing & Communications Intern</div>
+                    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">Bermuda Tourism Authority · Hamilton, Bermuda</div>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                      <span style="background:var(--blue3);color:var(--blue);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600;letter-spacing:.08em">Marketing</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">Hybrid</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">8 weeks</span>
+                      <span style="background:rgba(251,168,86,.15);color:#8b4a00;border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">IIC Vetted ✦</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--orange)">$16/hr</div>
+                  <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">Summer 2025</div>
+                  <button class="btn bt bsm" style="margin-top:.75rem">Apply →</button>
+                </div>
+              </div>
+              <p class="b" style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">Support campaigns across digital and print channels, assist with content creation and social media scheduling, and contribute to a live campaign brief from week two.</p>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="jb-card" style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1rem;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='var(--blue)';this.style.boxShadow='0 4px 20px rgba(0,0,0,.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                <div style="display:flex;gap:1.25rem;align-items:flex-start">
+                  <div style="width:52px;height:52px;border-radius:10px;background:var(--blue3);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">💻</div>
+                  <div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--black);margin-bottom:.2rem">IT & Systems Intern</div>
+                    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem">Argus Group · Hamilton, Bermuda</div>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                      <span style="background:var(--blue3);color:var(--blue);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600;letter-spacing:.08em">Technology</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">In-Person</span>
+                      <span style="background:var(--slate2);color:var(--text2);border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">12 weeks</span>
+                      <span style="background:rgba(251,168,86,.15);color:#8b4a00;border-radius:20px;padding:.2rem .65rem;font-size:.68rem;font-weight:600">IIC Vetted ✦</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--orange)">$19/hr</div>
+                  <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">Summer 2025</div>
+                  <button class="btn bt bsm" style="margin-top:.75rem">Apply →</button>
+                </div>
+              </div>
+              <p class="b" style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">Support the IT team with systems administration, helpdesk requests, and an internal tooling project. You'll be treated as a contributing team member from day one.</p>
+            </div>
+
+            <!-- Coming soon placeholder -->
+            <div style="background:var(--slate2);border:1.5px dashed var(--muted2);border-radius:10px;padding:2rem;text-align:center;margin-bottom:1rem">
+              <p style="font-size:.88rem;color:var(--muted);margin-bottom:.5rem">More roles added weekly as new employers join the IIC network.</p>
+              <button class="btn bt bsm" onclick="go('student')">Get notified when new roles drop →</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: sidebar -->
+        <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.25rem">
+
+          <!-- FRTF CTA -->
+          <div style="background:var(--black);border-radius:10px;padding:2rem;color:var(--white)">
+            <div style="font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.75rem">Before You Apply</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;line-height:1.2;margin-bottom:.75rem">Know where you stand first.</div>
+            <p style="font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:1.25rem">The FRTF Self-Assessment takes 8 minutes and shows you exactly what to work on before you submit your first application.</p>
+            <button class="btn bg2 bsm" style="color:#fff;width:100%;justify-content:center" onclick="go('student')">Take the Free Assessment →</button>
+          </div>
+
+          <!-- IIC Vetted badge explainer -->
+          <div style="background:var(--offwhite);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem">
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+              <span style="background:rgba(251,168,86,.15);color:#8b4a00;border-radius:20px;padding:.25rem .75rem;font-size:.68rem;font-weight:700">IIC Vetted ✦</span>
+            </div>
+            <p style="font-size:.83rem;color:var(--text2);line-height:1.65">Every role with this badge has been reviewed by IIC. The employer has committed to a structured placement, a named deliverable, and fair compensation. No busywork.</p>
+          </div>
+
+          <!-- Post a role -->
+          <div style="background:var(--blue);border-radius:10px;padding:1.75rem">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.6rem">Are you an employer?</div>
+            <p style="font-size:.83rem;color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:1.25rem">Post your internship opportunity and reach Bermuda's most prepared student talent.</p>
+            <button class="btn bol bsm" style="width:100%;justify-content:center" onclick="go('post')">Post an Opportunity →</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Bermuda's only firm dedicated to transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda — sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     POST AN OPPORTUNITY PAGE
+══════════════════════════════════════════ -->
+<div id="page-post" class="page">
+
+  <!-- Hero -->
+  <section class="bink pt66" style="position:relative;overflow:hidden;padding-bottom:4rem">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&q=80" alt="Business professional at desk" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.92) 0%,rgba(84,153,187,.2) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey ew">For Employers</span>
+      <h1 class="hh" style="color:var(--white);max-width:720px">Post Your Internship.<br><em style="color:var(--orange);font-style:italic">Reach Bermuda's Best.</em></h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.62);max-width:560px;line-height:1.8;margin-bottom:2rem">Every student who applies through IIC has completed the FRTF Self-Assessment and understands what a professional placement requires. You're not sorting through blind submissions — you're choosing from a prepared shortlist.</p>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:.6rem"><span style="color:var(--orange);font-size:1rem">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.72)">Free to post</span></div>
+        <div style="display:flex;align-items:center;gap:.6rem"><span style="color:var(--orange);font-size:1rem">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.72)">IIC reviews every application</span></div>
+        <div style="display:flex;align-items:center;gap:.6rem"><span style="color:var(--orange);font-size:1rem">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.72)">You choose from a shortlist</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why post with IIC -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey et">Why Post With IIC</span>
+      <h2 class="sh" style="margin-bottom:3rem">Not just a listing.<br><em class="t">A curated connection.</em></h2>
+      <div class="g3">
+        <div style="background:var(--white);border-radius:10px;padding:2rem;border:1.5px solid var(--border)">
+          <div style="font-size:1.8rem;margin-bottom:1rem">🎯</div>
+          <h3 class="ch" style="font-size:1.1rem">Prepared Applicants Only</h3>
+          <p class="b">Every student who applies has completed the FRTF Self-Assessment. They know their strengths and gaps before they apply — and they've been coached on professional standards.</p>
+        </div>
+        <div style="background:var(--white);border-radius:10px;padding:2rem;border:1.5px solid var(--border)">
+          <div style="font-size:1.8rem;margin-bottom:1rem">🔍</div>
+          <h3 class="ch" style="font-size:1.1rem">IIC Reviews Every Application</h3>
+          <p class="b">We don't forward every submission. We review, filter, and shortlist. You receive candidates worth interviewing — not a stack of CVs to sort through yourself.</p>
+        </div>
+        <div style="background:var(--white);border-radius:10px;padding:2rem;border:1.5px solid var(--border)">
+          <div style="font-size:1.8rem;margin-bottom:1rem">📋</div>
+          <h3 class="ch" style="font-size:1.1rem">IIC Vetted Badge</h3>
+          <p class="b">Roles that meet IIC's placement standards receive our vetted badge — a signal to students that your opportunity is real, paid, and worth applying for. It increases quality applicants.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The form -->
+  <section class="bwhite">
+    <div class="inner" style="display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:start">
+
+      <!-- Form -->
+      <div>
+        <span class="ey et">The Posting Form</span>
+        <h2 class="sh" style="margin-bottom:.5rem">Tell us about<br><em class="t">the opportunity.</em></h2>
+        <p class="b" style="margin-bottom:2.5rem;max-width:500px">The more specific you are, the better the applicants you'll attract. Vague postings attract vague candidates. Treat this like a real job description — because it is one.</p>
+
+        <div style="display:flex;flex-direction:column;gap:1.25rem">
+
+          <!-- Company details -->
+          <div style="background:var(--offwhite);border-radius:8px;padding:1.75rem;border:1px solid var(--border)">
+            <div style="font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.25rem">Your Organisation</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Company Name *</label>
+                <input type="text" placeholder="e.g. Argus Group" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Your Name *</label>
+                <input type="text" placeholder="First & Last Name" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Work Email *</label>
+                <input type="email" placeholder="you@company.bm" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Industry *</label>
+                <select style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;cursor:pointer">
+                  <option value="">Select industry…</option>
+                  <option>Finance & Insurance</option>
+                  <option>Law & Legal</option>
+                  <option>Technology</option>
+                  <option>Marketing & Media</option>
+                  <option>Architecture & Design</option>
+                  <option>Healthcare</option>
+                  <option>Government & Non-profit</option>
+                  <option>Hospitality & Tourism</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Role details -->
+          <div style="background:var(--offwhite);border-radius:8px;padding:1.75rem;border:1px solid var(--border)">
+            <div style="font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.25rem">The Role</div>
+            <div style="margin-bottom:1rem">
+              <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Role Title *</label>
+              <input type="text" placeholder="e.g. Finance & Investment Intern" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Format *</label>
+                <select style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;cursor:pointer">
+                  <option>In-Person</option>
+                  <option>Hybrid</option>
+                  <option>Remote</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Duration *</label>
+                <select style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;cursor:pointer">
+                  <option>4–6 weeks</option>
+                  <option>8–10 weeks</option>
+                  <option>12 weeks</option>
+                  <option>Semester</option>
+                  <option>Rolling</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Pay Rate ($/hr) *</label>
+                <input type="text" placeholder="e.g. $18" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Start Date / Timeline *</label>
+              <input type="text" placeholder="e.g. June 2025, or Rolling" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div style="background:var(--offwhite);border-radius:8px;padding:1.75rem;border:1px solid var(--border)">
+            <div style="font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.25rem">What They'll Actually Do</div>
+            <div style="margin-bottom:1rem">
+              <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Role Description *</label>
+              <textarea rows="4" placeholder="What will the intern be working on day-to-day? Be specific. The more concrete you are, the better your applicants." style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;resize:vertical;line-height:1.6;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Key Deliverable by End of Placement *</label>
+              <input type="text" placeholder="e.g. A completed financial analysis report, a live marketing campaign, a working prototype" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+              <p style="font-size:.75rem;color:var(--muted);margin-top:.4rem">This is required for IIC Vetted status. Roles with a defined deliverable attract significantly stronger applicants.</p>
+            </div>
+            <div>
+              <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem">Skills or Background (optional)</label>
+              <textarea rows="2" placeholder="Any preferred skills, subjects, or experience — but keep it honest. Don't list 5 years of experience for a student role." style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text);outline:none;resize:vertical;line-height:1.6;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+            </div>
+          </div>
+
+          <button class="btn bt" style="width:100%;justify-content:center;padding:1rem">Submit Opportunity →</button>
+          <p style="font-size:.78rem;color:var(--muted);text-align:center">IIC reviews every submission within 2 business days. We'll confirm receipt and let you know if we need anything else before it goes live.</p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.25rem">
+
+        <!-- What happens next -->
+        <div style="background:var(--black);border-radius:10px;padding:2rem;color:var(--white)">
+          <div style="font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem">What Happens Next</div>
+          <div style="display:flex;flex-direction:column;gap:1.1rem">
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:1.5rem">1</div>
+              <div><div style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.2rem">We review your posting</div><p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Within 2 business days we confirm, request any changes, and apply the IIC Vetted badge if eligible.</p></div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:1.5rem">2</div>
+              <div><div style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.2rem">It goes live on the board</div><p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Your role is visible to all IIC students and promoted to those whose FRTF profile matches your needs.</p></div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:1.5rem">3</div>
+              <div><div style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.2rem">We shortlist for you</div><p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">IIC reviews all applications and forwards only the candidates worth your time. You choose.</p></div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1;flex-shrink:0;width:1.5rem">4</div>
+              <div><div style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.2rem">You hire. We support.</div><p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Once you've selected your intern, IIC provides onboarding templates, milestone check-ins, and conversion support.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Free posting note -->
+        <div style="background:var(--blue3);border:1.5px solid rgba(84,153,187,.25);border-radius:10px;padding:1.75rem">
+          <div style="font-size:1.6rem;margin-bottom:.6rem">🆓</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--black);margin-bottom:.5rem">Free to post.</div>
+          <p style="font-size:.83rem;color:var(--text2);line-height:1.65">Listing your role on the IIC job board is completely free. We charge employers for the Audit and Manager Training — not for access to student talent.</p>
+        </div>
+
+        <!-- Also consider -->
+        <div style="background:var(--offwhite);border:1.5px solid var(--border);border-radius:10px;padding:1.75rem">
+          <div style="font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Also Worth Considering</div>
+          <p style="font-size:.83rem;color:var(--text2);line-height:1.65;margin-bottom:1rem">Posting a role is the start. If you want your intern to actually succeed, the <strong>Cognitive Scaffolding Audit</strong> gives you the structure to receive them properly.</p>
+          <button class="btn bo bsm" style="width:100%;justify-content:center" onclick="go('employer')">Learn About the Audit →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Bermuda's only firm dedicated to transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda — sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Committed to compliance with Bermuda's PIPA 2016.</p></div></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════════ -->
+<div id="page-about" class="page">
+
+  <section class="bink pt66" style="padding-bottom:5rem;position:relative;overflow:hidden">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=80" alt="Modern open-plan office" loading="lazy">
+    <div class="hero-overlay" style="background:linear-gradient(135deg,rgba(17,17,17,.92) 0%,rgba(84,153,187,.2) 100%);pointer-events:none"></div>
+    <div class="inner hero-content">
+      <span class="ey eg">About Internship Insights Co.</span>
+      <h1 class="hh" style="color:var(--cream);max-width:820px">Internships aren't broken.<br><em class="c">They're just underdesigned.</em></h1>
+      <p style="font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.58);max-width:580px;line-height:1.8">We exist to fix that — for companies, for managers, and for every student who deserves a real start.</p>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="bwhite">
+    <div class="inner">
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start">
+        <div>
+          <div style="border-radius:10px;overflow:hidden;margin-bottom:1.5rem;aspect-ratio:4/5;position:relative;background:var(--slate2)">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80" alt="Sydney West — Founder placeholder" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">
+            <div style="position:absolute;bottom:1rem;left:1rem;right:1rem;background:rgba(255,255,255,.92);border-radius:6px;padding:.75rem 1rem;backdrop-filter:blur(4px)">
+              <p style="font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center">📸 Replace with Sydney's photo in Squarespace</p>
+            </div>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:.2rem">Sydney West</div>
+          <div style="font-size:.77rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem">Founder, Internship Insights Co.</div>
+          <a href="https://www.linkedin.com/in/sydneyr-west" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:600;color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(27,77,62,.25);padding-bottom:.2rem">Connect on LinkedIn →</a>
+        </div>
+        <div>
+          <span class="ey et">The Founder's Story</span>
+          <h2 class="sh" style="max-width:560px;margin-bottom:2rem">I lived this reality.<br><em class="t">That's why I built this.</em></h2>
+          <p class="blg" style="margin-bottom:1.5rem">Internships are meant to prepare students for the workforce. But too often, tasks drift from job descriptions, mentoring fades, and meaningful feedback is rare.</p>
+          <p class="b" style="margin-bottom:1.2rem">As an International Business co-op student, I experienced both sides — deeply engaging placements that shaped who I became professionally, and ones that left me feeling invisible. Useful on paper. Valueless in practice.</p>
+          <p class="b" style="margin-bottom:1.2rem">That contrast was the moment. Not a frustration — a realisation. The problem wasn't the students. It wasn't even the companies. It was the absence of design. Nobody had built the system. Nobody had trained the managers. Nobody had prepared the students. Everyone was improvising and calling it an internship.</p>
+          <div class="bq bq-t" style="margin:2rem 0">Internships weren't broken — they were just underdesigned.</div>
+          <p class="b" style="margin-bottom:1.2rem">Driven by a passion for teaching, entrepreneurship, and building real career pathways, I founded Internship Insights Co. during my final year of university — after testing the idea with my professor, my life coach, mentors, and the people whose judgment I trust most.</p>
+          <p class="b">Today, we work with companies, managers, and students across Bermuda to close the gap between education and employment — through structured diagnostics, skill-building programmes, and guaranteed paid placements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three pillars -->
+  <section class="bcream2">
+    <div class="inner">
+      <span class="ey et">How We Work</span>
+      <h2 class="sh" style="max-width:560px;margin-bottom:.75rem">Three pillars.<br><em class="t">One mission.</em></h2>
+      <p class="b" style="max-width:540px;margin-bottom:3.5rem">Everything IIC does sits under one of three pillars. Together, they form a complete system — from preparing students, to placing them, to improving the programs that receive them.</p>
+      <div class="g3">
+        <div style="background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--bl);transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(14,28,20,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="background:var(--blue);padding:2rem 2rem 1.5rem"><div style="font-size:1.8rem;margin-bottom:.75rem">🔥</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.2rem">Ignite Learning</div><div style="font-size:.67rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.52)">For Students & Managers</div></div>
+          <div style="padding:2rem"><p class="b" style="margin-bottom:1.5rem">Career-readiness workshops that prepare interns for the workplace before day one — and train managers to supervise, mentor, and give feedback in a way that actually develops people.</p><button class="btn bt bsm" onclick="go('student')">Explore Ignite →</button></div>
+        </div>
+        <div style="background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--bl);transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(14,28,20,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="background:var(--orange);padding:2rem 2rem 1.5rem"><div style="font-size:1.8rem;margin-bottom:.75rem">🔗</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.2rem">Integrate Talent</div><div style="font-size:.67rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.52)">For Students & Employers</div></div>
+          <div style="padding:2rem"><p class="b" style="margin-bottom:1.5rem">Bermuda's first dedicated internship job board — connecting prepared students with companies who are ready to receive them. Local opportunities now. Global pathways next.</p><button class="btn bc bsm" onclick="go('jobboard')">Browse Job Board →</button></div>
+        </div>
+        <div style="background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--bl);transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(14,28,20,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="background:var(--ink);padding:2rem 2rem 1.5rem"><div style="font-size:1.8rem;margin-bottom:.75rem">📊</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.2rem">Improve Systems</div><div style="font-size:.67rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.42)">For Companies & HR</div></div>
+          <div style="padding:2rem"><p class="b" style="margin-bottom:1.5rem">Tailored auditing, optimising, and designing of internship frameworks — so companies stop running programs on autopilot and start building ones that actually work.</p><button class="btn bo bsm" onclick="go('employer')">Explore Audit →</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission / Vision / Values -->
+  <section class="bteal">
+    <div class="inner">
+      <span class="ey ew">What We Stand For</span>
+      <h2 class="sh" style="color:var(--cream);margin-bottom:3.5rem">Not just a business.<br><em class="gd">A belief system.</em></h2>
+      <div class="g3">
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:2.25rem"><div style="font-size:1.5rem;margin-bottom:1rem">🎯</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:.75rem">Mission</div><p class="bw">To bridge the gap between education and employment by equipping students and companies with structured internship solutions that lead to meaningful career pathways and stronger talent pipelines.</p></div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:2.25rem"><div style="font-size:1.5rem;margin-bottom:1rem">🌍</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:.75rem">Vision</div><p class="bw">A world where every internship is a launchpad — preparing students for future careers and helping companies cultivate the skilled, motivated talent they actually need.</p></div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:2.25rem"><div style="font-size:1.5rem;margin-bottom:1rem">⚡</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:.75rem">Values</div><p class="bw">Integrity. Excellence. Impact. Collaboration. We do what's right, deliver high-quality work, drive meaningful outcomes, and build partnerships that last — between students, employers, and communities.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where we're going -->
+  <section class="bwhite">
+    <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start">
+      <div>
+        <span class="ey et">Where We're Going</span>
+        <h2 class="sh" style="margin-bottom:1.5rem">Starting in Bermuda.<br><em class="t">Scaling beyond it.</em></h2>
+        <p class="b" style="margin-bottom:1.2rem">We're building toward international accreditation for the Ignite Learning curriculum, B Corp certification to formalise our social impact, and expanding the Integrate Talent placement programme to include guaranteed paid opportunities locally and abroad.</p>
+        <p class="b">Our long-term vision is a globally recognised internship model — beginning in Bermuda, then scaling to Canada, the US, the UK, and beyond.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div style="background:var(--cream2);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;border:1px solid var(--bl)"><div style="font-size:1.5rem;flex-shrink:0">🏅</div><div><div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1rem;margin-bottom:.3rem">International Accreditation</div><p style="font-size:.83rem;color:var(--muted2);line-height:1.6">For the Ignite Learning curriculum — so the certificate means something everywhere.</p></div></div>
+        <div style="background:var(--cream2);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;border:1px solid var(--bl)"><div style="font-size:1.5rem;flex-shrink:0">🌱</div><div><div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1rem;margin-bottom:.3rem">B Corp Certification</div><p style="font-size:.83rem;color:var(--muted2);line-height:1.6">Formalising our social impact commitment with the highest standard available.</p></div></div>
+        <div style="background:var(--cream2);border-radius:8px;padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;border:1px solid var(--bl)"><div style="font-size:1.5rem;flex-shrink:0">🌐</div><div><div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1rem;margin-bottom:.3rem">Global Expansion</div><p style="font-size:.83rem;color:var(--muted2);line-height:1.6">Bermuda first. Then Canada, the US, the UK, and beyond.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bink">
+    <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+      <div>
+        <span class="ey eg">Ready to Talk?</span>
+        <h2 class="sh" style="color:var(--cream);margin-bottom:1rem">Whether you're an employer, a manager, or a student — <em class="gd">the conversation starts the same way.</em></h2>
+        <p class="bw">No pitch. No pressure. Sydney answers every enquiry personally.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:2rem">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--cream);margin-bottom:1.25rem">Where would you like to start?</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <button class="btn bt" style="justify-content:space-between" onclick="go('employer')">I'm an employer — fix my program <span>→</span></button>
+            <button class="btn bc" style="justify-content:space-between" onclick="go('manager')">I'm a manager — register interest <span>→</span></button>
+            <button class="btn bg2" style="color:var(--ink);justify-content:space-between" onclick="go('student')">I'm a student — get me ready <span>→</span></button>
+          </div>
+        </div>
+        <p style="font-size:.78rem;color:var(--muted);text-align:center">Or email directly: <span style="color:var(--orange)">sydney.west@internshipinsightsco.com</span></p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <footer><div class="inner"><div class="ftop">
+    <div><div class="flogo">Internship Insights<span> Co.</span></div><p class="ftag">Bermuda's only firm dedicated to transforming how internships are built, managed, and experienced.</p><p style="font-size:.8rem;color:var(--muted)">Pembroke, Bermuda<br>sydney.west@internshipinsightsco.com</p></div>
+    <div><div class="fct">For</div><button class="fl" onclick="go('employer')">Employers</button><button class="fl" onclick="go('manager')">Managers</button><button class="fl" onclick="go('student')">Students</button></div>
+    <div><div class="fct">Company</div><button class="fl" onclick="go('about')">About</button><button class="fl" onclick="go('jobboard')">Job Board</button><button class="fl">Contact</button><button class="fl">Privacy Policy</button><button class="fl">Terms of Service</button><button class="fl">Cookie Policy</button></div>
+    <div><div class="fct">Follow</div><button class="fl">LinkedIn</button><button class="fl">Instagram</button><button class="fl">Facebook</button></div>
+  </div><div class="fbot"><div><p class="fcp">© 2026 Internship Insights Co. All rights reserved.</p><p class="pipa">Internship Insights Co. is committed to compliance with Bermuda's Personal Information Protection Act (PIPA) 2016.</p></div></div></div></footer>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+id);
+  if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+}
+let qIdx=0,qTimer;
+const qTotal=4;
+function goQ(i){
+  qIdx=i;
+  document.getElementById('qslides').style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll('.qdot').forEach((d,j)=>d.classList.toggle('on',j===i));
+  clearInterval(qTimer);qTimer=setInterval(()=>stepQ(1),4500);
+}
+function stepQ(dir){goQ((qIdx+dir+qTotal)%qTotal);}
+qTimer=setInterval(()=>stepQ(1),4500);
+</script>
+</body>
+</html>
